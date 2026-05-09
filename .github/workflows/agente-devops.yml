@@ -1,0 +1,24 @@
+name: Agente DevOps - Monitor de Projeto
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Agente DevOps reportando
+        run: |
+          echo "Status: O repositório do Mister Churras está ativo."
+          echo "Bucanero, o ambiente está pronto para receber os outros agentes."
