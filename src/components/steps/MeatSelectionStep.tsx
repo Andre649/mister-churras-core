@@ -3,23 +3,23 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { cn } from '../ui/Button';
 import { ArrowLeft, Flame, Check } from 'lucide-react';
-import type { MeatSelection } from '../../utils/calculator';
+import type { MenuSelection } from '../../utils/calculator';
 
 interface MeatSelectionStepProps {
-  meats: MeatSelection;
-  setMeats: React.Dispatch<React.SetStateAction<MeatSelection>>;
+  meats: MenuSelection;
+  setMeats: React.Dispatch<React.SetStateAction<MenuSelection>>;
   onNext: () => void;
   onBack: () => void;
 }
 
 export function MeatSelectionStep({ meats, setMeats, onNext, onBack }: MeatSelectionStepProps) {
-  const toggleMeat = (key: keyof MeatSelection) => {
+  const toggleMeat = (key: keyof MenuSelection) => {
     setMeats(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   const hasSelection = Object.values(meats).some(Boolean);
 
-  const MeatOption = ({ label, type, description }: { label: string, type: keyof MeatSelection, description: string }) => {
+  const MeatOption = ({ label, type, description }: { label: string, type: keyof MenuSelection, description: string }) => {
     const isSelected = meats[type];
     return (
       <button
@@ -57,10 +57,15 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack }: MeatSelec
       </div>
 
       <div className="space-y-3 mb-8">
-        <MeatOption type="bovino" label="Bovino" description="Picanha, Alcatra, Fraldinha, Costela" />
-        <MeatOption type="suino" label="Suíno" description="Panceta, Costelinha, Lombo" />
-        <MeatOption type="frango" label="Frango" description="Coraçãozinho, Coxinha da asa, Sobrecoxa" />
+        <MeatOption type="bovino" label="Bovino" description="Picanha, Fraldinha, Ancho, Chorizo" />
+        <MeatOption type="suino" label="Suíno" description="Panceta, Costelinha, Picanha Suína" />
+        <MeatOption type="frango" label="Frango" description="Coraçãozinho, Tulipa, Sobrecoxa desossada" />
         <MeatOption type="linguica" label="Linguiça" description="Toscana, Apimentada, Cuiabana" />
+        <div className="pt-4 pb-2">
+          <h3 className="text-zinc-400 font-serif font-bold text-lg">Guarnições da Casa</h3>
+        </div>
+        <MeatOption type="paoDeAlho" label="Pão de Alho" description="O clássico intocável (2 por guerreiro)" />
+        <MeatOption type="queijoCoalho" label="Queijo Coalho" description="Dourado e derretido (1 por pessoa)" />
       </div>
 
       <Button 

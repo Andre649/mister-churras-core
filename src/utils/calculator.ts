@@ -4,11 +4,13 @@ export interface Guests {
   kids: number;
 }
 
-export interface MeatSelection {
+export interface MenuSelection {
   bovino: boolean;
   suino: boolean;
   frango: boolean;
   linguica: boolean;
+  paoDeAlho: boolean;
+  queijoCoalho: boolean;
 }
 
 export interface CalculationResult {
@@ -18,6 +20,12 @@ export interface CalculationResult {
     frango: number;
     linguica: number;
     total: number;
+  };
+  sides: {
+    paoDeAlho: number; // units
+    queijoCoalho: number; // units
+    farofa: number; // kg
+    vinagrete: number; // kg
   };
   drinks: {
     beer: number; // in units
@@ -32,7 +40,7 @@ export interface CalculationResult {
 export function calculateChurras(
   guests: Guests,
   durationHours: number,
-  meats: MeatSelection
+  meats: MenuSelection
 ): CalculationResult {
   // 1. Base consumption for 4 hours
   let baseMeatTotal = (guests.men * 0.6) + (guests.women * 0.4) + (guests.kids * 0.25);
@@ -77,7 +85,7 @@ export function calculateChurras(
 
   // Drinks (4h base)
   const adults = guests.men + guests.women;
-  let baseBeer = adults * 5; // 5 units per adult
+  let baseBeer = adults * 8; // 8 units per adult
   let baseSoda = (adults + guests.kids) * 1; // 1L per person
 
   if (durationHours > 4) {
@@ -94,6 +102,13 @@ export function calculateChurras(
   const totalCoal = Math.ceil(totalMeatKg); // 1:1 ratio
   const totalSalt = Math.ceil((totalMeatKg / 10) * 0.5 * 10) / 10; // 500g per 10kg
 
+  // Sides
+  const totalPeople = adults + guests.kids;
+  const paoDeAlho = meats.paoDeAlho ? (adults * 2 + guests.kids * 1) : 0;
+  const queijoCoalho = meats.queijoCoalho ? totalPeople * 1 : 0;
+  const farofa = Math.round(totalPeople * 0.1 * 10) / 10; // 100g per person
+  const vinagrete = Math.round(totalPeople * 0.1 * 10) / 10; // 100g per person
+
   return {
     meats: {
       bovino: Math.round(totalMeatKg * pBovino * 10) / 10,
@@ -101,6 +116,12 @@ export function calculateChurras(
       frango: Math.round(totalMeatKg * pFrango * 10) / 10,
       linguica: Math.round(totalMeatKg * pLinguica * 10) / 10,
       total: Math.round(totalMeatKg * 10) / 10,
+    },
+    sides: {
+      paoDeAlho,
+      queijoCoalho,
+      farofa,
+      vinagrete,
     },
     drinks: {
       beer: totalBeer,

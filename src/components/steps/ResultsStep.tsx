@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { ArrowLeft, RefreshCw, ShoppingCart, Flame, Droplets, Package } from 'lucide-react';
+import { ArrowLeft, RefreshCw, ShoppingCart, Flame, Droplets, Package, Wheat } from 'lucide-react';
 import type { CalculationResult } from '../../utils/calculator';
 
 interface ResultsStepProps {
@@ -44,6 +44,12 @@ export function ResultsStep({ result, onReset, onBack }: ResultsStepProps) {
     meatItems.push({ label: 'Total de Carnes', value: `${result.meats.total} kg` });
   }
 
+  const sideItems = [];
+  if (result.sides.paoDeAlho > 0) sideItems.push({ label: 'Pão de Alho', value: `${result.sides.paoDeAlho} un` });
+  if (result.sides.queijoCoalho > 0) sideItems.push({ label: 'Queijo Coalho', value: `${result.sides.queijoCoalho} un` });
+  if (result.sides.farofa > 0) sideItems.push({ label: 'Farofa Pronta', value: `${result.sides.farofa} kg` });
+  if (result.sides.vinagrete > 0) sideItems.push({ label: 'Vinagrete', value: `${result.sides.vinagrete} kg` });
+
   const drinkItems = [
     { label: 'Cerveja (Latas/Long Neck)', value: `${result.drinks.beer} un` },
     { label: 'Refrigerante / Água', value: `${result.drinks.sodaWater} L` },
@@ -67,6 +73,7 @@ export function ResultsStep({ result, onReset, onBack }: ResultsStepProps) {
 
       <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
         <CategorySection title="Carnes" icon={<Flame size={20} />} items={meatItems} />
+        <CategorySection title="Guarnições" icon={<Wheat size={20} />} items={sideItems} />
         <CategorySection title="Bebidas" icon={<Droplets size={20} />} items={drinkItems} />
         <CategorySection title="Suprimentos" icon={<Package size={20} />} items={supplyItems} />
       </div>

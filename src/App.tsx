@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SetupStep } from './components/steps/SetupStep';
 import { MeatSelectionStep } from './components/steps/MeatSelectionStep';
 import { ResultsStep } from './components/steps/ResultsStep';
-import { calculateChurras, type Guests, type MeatSelection, type CalculationResult } from './utils/calculator';
+import { calculateChurras, type Guests, type MenuSelection, type CalculationResult } from './utils/calculator';
 import { Flame } from 'lucide-react';
 
 type Step = 'setup' | 'meats' | 'results';
@@ -15,11 +15,13 @@ function App() {
   const [durationHours, setDurationHours] = useState<number>(4);
   
   // State for Meats
-  const [meats, setMeats] = useState<MeatSelection>({
+  const [meats, setMeats] = useState<MenuSelection>({
     bovino: false,
     suino: false,
     frango: false,
     linguica: false,
+    paoDeAlho: false,
+    queijoCoalho: false,
   });
 
   // State for Results
@@ -34,7 +36,7 @@ function App() {
   const handleReset = () => {
     setGuests({ men: 0, women: 0, kids: 0 });
     setDurationHours(4);
-    setMeats({ bovino: false, suino: false, frango: false, linguica: false });
+    setMeats({ bovino: false, suino: false, frango: false, linguica: false, paoDeAlho: false, queijoCoalho: false });
     setResult(null);
     setCurrentStep('setup');
   };
