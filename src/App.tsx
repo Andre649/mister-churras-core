@@ -40,14 +40,17 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-4 relative overflow-hidden bg-carvao-950 text-offwhite font-sans antialiased">
+    <div className="min-h-screen flex flex-col p-4 relative overflow-hidden bg-[#0a0807] text-offwhite font-sans antialiased">
+      {/* Background rustic texture (wood/charcoal) */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#1c1410]/20 to-black/80 pointer-events-none mix-blend-multiply" />
+      
       {/* Background ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brasa-600/10 rounded-full blur-[120px] pointer-events-none" />
       
       {/* Header */}
       <header className="py-6 flex justify-center items-center gap-3 relative z-10">
-        <Flame className="text-brasa-500 animate-pulse" size={32} />
-        <h1 className="font-serif text-3xl md:text-4xl font-bold tracking-tight text-offwhite">
+        <Flame className="text-brasa-500 animate-[pulse-brasa_2s_infinite]" size={36} />
+        <h1 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-offwhite drop-shadow-lg">
           Mister <span className="text-brasa-500">Churras</span>
         </h1>
       </header>

@@ -21,10 +21,10 @@ export function Button({
   return (
     <button
       className={cn(
-        "px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2",
+        "px-6 py-4 rounded-none border-y-2 border-zinc-900 font-serif font-bold text-lg uppercase tracking-wide transition-all duration-300 transform active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2",
         {
-          "bg-gradient-to-r from-brasa-600 to-red-600 text-offwhite glow-brasa hover:glow-brasa-hover hover:-translate-y-0.5 border border-brasa-500/30": variant === 'primary',
-          "bg-carvao-900 text-offwhite hover:bg-carvao-950 border border-zinc-700 hover:border-zinc-500": variant === 'secondary',
+          "bg-gradient-to-r from-[#8e2900] via-brasa-600 to-[#8e2900] text-offwhite pulse-brasa hover:glow-brasa-hover shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] border-x-4 border-x-zinc-900": variant === 'primary',
+          "bg-carvao-900 text-offwhite hover:bg-carvao-950 border-x-4 border-zinc-800 hover:border-zinc-700 shadow-[inset_0_0_10px_rgba(0,0,0,0.8)]": variant === 'secondary',
           "bg-transparent border-2 border-brasa-500 text-brasa-500 hover:bg-brasa-500/10": variant === 'outline',
           "w-full": fullWidth,
         },

@@ -30,27 +30,27 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
 
       <div className="space-y-4 mb-8">
         <Counter 
-          label="Guardiões (Homens)" 
+          label="Guerreiros" 
           value={guests.men} 
           onChange={(v) => updateGuest('men', v)} 
           icon={<Users size={24} />}
         />
         <Counter 
-          label="Mulheres" 
+          label="Guardiãs" 
           value={guests.women} 
           onChange={(v) => updateGuest('women', v)} 
           icon={<User size={24} />}
         />
         <Counter 
-          label="Crianças" 
+          label="Aprendizes" 
           value={guests.kids} 
           onChange={(v) => updateGuest('kids', v)} 
           icon={<Baby size={24} />}
         />
         
-        <div className="pt-4 mt-4 border-t border-zinc-800">
+        <div className="pt-4 mt-4 border-t border-zinc-900">
           <Counter 
-            label="Duração (Horas)" 
+            label="Tempo de Fogo (Horas)" 
             value={durationHours} 
             onChange={setDurationHours} 
             min={1}
