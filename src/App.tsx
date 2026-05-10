@@ -64,14 +64,14 @@ function AppContent() {
         <div>
           {user ? (
             <div className="flex items-center gap-4">
-              <span className="hidden md:inline text-zinc-400 text-sm">{user.email}</span>
-              <button onClick={signOut} className="flex items-center gap-2 text-zinc-400 hover:text-[#C0392B] transition-colors" title="Sair do Cofre">
+              <span className="hidden md:inline text-zinc-400 text-sm">{user.phone || user.email}</span>
+              <button onClick={signOut} className="flex items-center gap-2 text-zinc-400 hover:text-[#C0392B] transition-colors" title="Sair da Caderneta">
                 <LogOut size={24} />
               </button>
             </div>
           ) : (
             <button onClick={() => setIsAuthModalOpen(true)} className="flex items-center gap-2 text-brasa-500 hover:text-[#E67E22] transition-colors font-bold px-4 py-2 border-2 border-brasa-500/50 rounded-lg hover:bg-brasa-500/10">
-              <LogIn size={20} /> <span className="hidden md:inline">Acessar Cofre</span>
+              <LogIn size={20} /> <span className="hidden md:inline">Caderneta do Mestre</span>
             </button>
           )}
         </div>

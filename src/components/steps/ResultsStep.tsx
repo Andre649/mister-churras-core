@@ -40,7 +40,7 @@ export function ResultsStep({ result, durationHours, onReset, onBack, onRequestA
       ]);
 
       if (error) throw error;
-      setSaveMessage({ type: 'success', text: 'Lista salva no Cofre com sucesso!' });
+      setSaveMessage({ type: 'success', text: 'Churrasco gravado na Caderneta com sucesso!' });
     } catch (err: any) {
       console.error(err);
       setSaveMessage({ type: 'error', text: 'Erro ao salvar. Tente novamente.' });
@@ -122,7 +122,7 @@ export function ResultsStep({ result, durationHours, onReset, onBack, onRequestA
         )}
         <Button fullWidth className="text-lg" variant="primary" onClick={handleSave} disabled={isSaving}>
           {isSaving ? <Loader2 className="animate-spin mx-auto" size={24} /> : (
-            <><ShoppingCart className="mr-2" size={20} /> Salvar Lista do Mestre</>
+            <><ShoppingCart className="mr-2" size={20} /> Gravar na Caderneta</>
           )}
         </Button>
         <Button variant="outline" fullWidth onClick={onReset}>
