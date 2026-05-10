@@ -2,7 +2,7 @@ import React from 'react';
 import { Counter } from '../ui/Counter';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
-import { Users, User, Baby, Clock, Flame } from 'lucide-react';
+import { Users, User, Baby, Clock, Flame, Beer } from 'lucide-react';
 import type { Guests } from '../../utils/calculator';
 
 interface SetupStepProps {
@@ -18,8 +18,16 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
     setGuests(prev => ({ ...prev, [key]: value }));
   };
 
-  const totalGuests = guests.men + guests.women + guests.kids;
+  const totalAdults = guests.men + guests.women;
+  const totalGuests = totalAdults + guests.kids;
   const canProceed = totalGuests > 0 && durationHours > 0;
+
+  // Garantir que os bebedores não ultrapassem o total de adultos
+  React.useEffect(() => {
+    if (guests.drinkers > totalAdults) {
+      setGuests(prev => ({ ...prev, drinkers: totalAdults }));
+    }
+  }, [totalAdults, guests.drinkers, setGuests]);
 
   return (
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -48,6 +56,19 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
           icon={<Baby size={24} />}
         />
         
+        <div className="pt-4 mt-4 border-t border-zinc-900">
+          <Counter 
+            label="Bebem Cerveja" 
+            value={guests.drinkers} 
+            onChange={(v) => updateGuest('drinkers', v)} 
+            max={totalAdults}
+            icon={<Beer size={24} />}
+          />
+          <p className="text-xs text-zinc-500 mt-2">
+            Máximo igual ao número de Guerreiros + Guardiãs.
+          </p>
+        </div>
+
         <div className="pt-4 mt-4 border-t border-zinc-900">
           <Counter 
             label="Tempo de Fogo (Horas)" 

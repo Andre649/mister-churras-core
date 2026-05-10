@@ -11,7 +11,7 @@ function App() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   
   // State for Setup
-  const [guests, setGuests] = useState<Guests>({ men: 0, women: 0, kids: 0 });
+  const [guests, setGuests] = useState<Guests>({ men: 0, women: 0, kids: 0, drinkers: 0 });
   const [durationHours, setDurationHours] = useState<number>(4);
   
   // State for Meats
@@ -34,7 +34,7 @@ function App() {
   };
 
   const handleReset = () => {
-    setGuests({ men: 0, women: 0, kids: 0 });
+    setGuests({ men: 0, women: 0, kids: 0, drinkers: 0 });
     setDurationHours(4);
     setMeats({ bovino: false, suino: false, frango: false, linguica: false, paoDeAlho: false, queijoCoalho: false });
     setResult(null);

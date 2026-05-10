@@ -2,6 +2,7 @@ export interface Guests {
   men: number;
   women: number;
   kids: number;
+  drinkers: number;
 }
 
 export interface MenuSelection {
@@ -85,7 +86,7 @@ export function calculateChurras(
 
   // Drinks (4h base)
   const adults = guests.men + guests.women;
-  let baseBeer = adults * 8; // 8 units per adult
+  let baseBeer = guests.drinkers * 8; // 8 units per drinker
   let baseSoda = (adults + guests.kids) * 1; // 1L per person
 
   if (durationHours > 4) {
