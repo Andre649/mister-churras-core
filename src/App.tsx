@@ -3,12 +3,16 @@ import { SetupStep } from './components/steps/SetupStep';
 import { MeatSelectionStep } from './components/steps/MeatSelectionStep';
 import { ResultsStep } from './components/steps/ResultsStep';
 import { calculateChurras, type Guests, type MenuSelection, type CalculationResult } from './utils/calculator';
-import { Flame } from 'lucide-react';
+import { Flame, LogIn, LogOut } from 'lucide-react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthModal } from './components/auth/AuthModal';
 
 type Step = 'setup' | 'meats' | 'results';
 
-function App() {
+function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { user, signOut } = useAuth();
   
   // State for Setup
   const [guests, setGuests] = useState<Guests>({ men: 0, women: 0, kids: 0, drinkers: 0 });
@@ -50,11 +54,27 @@ function App() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brasa-600/10 rounded-full blur-[120px] pointer-events-none" />
       
       {/* Header */}
-      <header className="py-6 flex justify-center items-center gap-3 relative z-10">
-        <Flame className="text-brasa-500 animate-[pulse-brasa_2s_infinite]" size={36} />
-        <h1 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-offwhite drop-shadow-lg">
-          Mister <span className="text-brasa-500">Churras</span>
-        </h1>
+      <header className="py-6 px-4 flex justify-between items-center relative z-10 w-full max-w-4xl mx-auto">
+        <div className="flex items-center gap-3">
+          <Flame className="text-brasa-500 animate-[pulse-brasa_2s_infinite]" size={36} />
+          <h1 className="font-serif text-2xl md:text-4xl font-bold tracking-tight text-offwhite drop-shadow-lg">
+            Mister <span className="text-brasa-500">Churras</span>
+          </h1>
+        </div>
+        <div>
+          {user ? (
+            <div className="flex items-center gap-4">
+              <span className="hidden md:inline text-zinc-400 text-sm">{user.email}</span>
+              <button onClick={signOut} className="flex items-center gap-2 text-zinc-400 hover:text-[#C0392B] transition-colors" title="Sair do Cofre">
+                <LogOut size={24} />
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => setIsAuthModalOpen(true)} className="flex items-center gap-2 text-brasa-500 hover:text-[#E67E22] transition-colors font-bold px-4 py-2 border-2 border-brasa-500/50 rounded-lg hover:bg-brasa-500/10">
+              <LogIn size={20} /> <span className="hidden md:inline">Acessar Cofre</span>
+            </button>
+          )}
+        </div>
       </header>
 
       {/* Main Content Area */}
@@ -80,13 +100,25 @@ function App() {
         
         {currentStep === 'results' && (
           <ResultsStep 
-            result={result} 
+            result={result}
+            durationHours={durationHours}
             onBack={() => setCurrentStep('meats')}
             onReset={handleReset}
+            onRequestAuth={() => setIsAuthModalOpen(true)}
           />
         )}
       </main>
+
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

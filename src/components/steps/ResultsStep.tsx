@@ -1,17 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { ArrowLeft, RefreshCw, ShoppingCart, Flame, Droplets, Package, Wheat } from 'lucide-react';
+import { ArrowLeft, RefreshCw, ShoppingCart, Flame, Droplets, Package, Wheat, Loader2 } from 'lucide-react';
 import type { CalculationResult } from '../../utils/calculator';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 interface ResultsStepProps {
   result: CalculationResult | null;
+  durationHours: number;
   onReset: () => void;
   onBack: () => void;
+  onRequestAuth: () => void;
 }
 
-export function ResultsStep({ result, onReset, onBack }: ResultsStepProps) {
+export function ResultsStep({ result, durationHours, onReset, onBack, onRequestAuth }: ResultsStepProps) {
+  const { user } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<{type: 'success'|'error', text: string} | null>(null);
+
   if (!result) return null;
+
+  const handleSave = async () => {
+    if (!user) {
+      onRequestAuth();
+      return;
+    }
+
+    setIsSaving(true);
+    setSaveMessage(null);
+
+    try {
+      const { error } = await supabase.from('events').insert([
+        {
+          user_id: user.id,
+          title: `Churrasco do Mestre - ${new Date().toLocaleDateString('pt-BR')}`,
+          duration_hours: durationHours,
+        }
+      ]);
+
+      if (error) throw error;
+      setSaveMessage({ type: 'success', text: 'Lista salva no Cofre com sucesso!' });
+    } catch (err: any) {
+      console.error(err);
+      setSaveMessage({ type: 'error', text: 'Erro ao salvar. Tente novamente.' });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const CategorySection = ({ title, icon, items }: { title: string, icon: React.ReactNode, items: { label: string, value: string }[] }) => {
     if (items.length === 0) return null;
@@ -79,11 +115,18 @@ export function ResultsStep({ result, onReset, onBack }: ResultsStepProps) {
       </div>
 
       <div className="mt-8 space-y-3">
-        <Button fullWidth className="text-lg">
-          <ShoppingCart className="mr-2" size={20} /> Salvar Lista (Em breve)
+        {saveMessage && (
+          <div className={`p-3 rounded-lg text-sm border text-center ${saveMessage.type === 'success' ? 'bg-green-500/10 border-green-500/30 text-green-400' : 'bg-[#C0392B]/10 border-[#C0392B]/30 text-[#C0392B]'}`}>
+            {saveMessage.text}
+          </div>
+        )}
+        <Button fullWidth className="text-lg" variant="primary" onClick={handleSave} disabled={isSaving}>
+          {isSaving ? <Loader2 className="animate-spin mx-auto" size={24} /> : (
+            <><ShoppingCart className="mr-2" size={20} /> Salvar Lista do Mestre</>
+          )}
         </Button>
         <Button variant="outline" fullWidth onClick={onReset}>
-          <RefreshCw className="mr-2" size={18} /> Novo Churrasco
+          <RefreshCw className="mr-2" size={18} /> Novo Ritual
         </Button>
       </div>
     </Card>
