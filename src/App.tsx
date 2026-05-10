@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SetupStep } from './components/steps/SetupStep';
 import { MeatSelectionStep } from './components/steps/MeatSelectionStep';
 import { ResultsStep } from './components/steps/ResultsStep';

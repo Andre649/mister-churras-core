@@ -32,8 +32,8 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
   return (
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-serif font-bold text-brasa-500 mb-2">Quem vai pro abate?</h2>
-        <p className="text-zinc-400">Defina o batalhão que vai honrar a brasa.</p>
+        <h2 className="text-3xl font-serif font-bold text-[#D35400] mb-2 uppercase tracking-wide">Defina o Batalhão</h2>
+        <p className="text-[#BDC3C7]">Prepare sua tropa para a brasa.</p>
       </div>
 
       <div className="space-y-4 mb-8">
@@ -88,9 +88,10 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
         fullWidth 
         onClick={onNext} 
         disabled={!canProceed}
-        className="text-lg"
+        className="text-lg mt-4"
+        variant="primary"
       >
-        Avançar para as Carnes <Flame className="ml-2" size={20} />
+        INICIAR O RITUAL <Flame className="ml-2 animate-pulse" size={24} />
       </Button>
     </Card>
   );
