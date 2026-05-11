@@ -42,7 +42,10 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       const extraText = data?.dev_otp ? ` (DEV: ${data.dev_otp})` : '';
       setMessage({ type: 'success', text: 'Código enviado via WhatsApp!' + extraText });
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message || 'Erro ao enviar código.' });
+      const errorMsg = error.message?.includes('non-2xx') 
+        ? 'Erro ao conectar com o servidor. Tente novamente.' 
+        : error.message || 'Erro ao enviar código.';
+      setMessage({ type: 'error', text: errorMsg });
     } finally {
       setLoading(false);
     }
@@ -72,7 +75,10 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
       onClose(); // Login successful
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message || 'Código inválido.' });
+      const errorMsg = error.message?.includes('non-2xx') 
+        ? 'Código inválido ou expirado. Peça um novo código.' 
+        : error.message || 'Código inválido.';
+      setMessage({ type: 'error', text: errorMsg });
     } finally {
       setLoading(false);
     }
