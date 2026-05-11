@@ -43,7 +43,10 @@ serve(async (req) => {
 
     // Create or find user in Auth
     const { data: userResponse, error: listError } = await supabaseAdmin.auth.admin.listUsers()
-    let user = userResponse?.users.find(u => u.phone === phone)
+    
+    // Supabase armazena números sem o '+'
+    const normalizedPhone = phone.replace('+', '')
+    let user = userResponse?.users.find(u => u.phone === phone || u.phone === normalizedPhone)
 
     const userPassword = phone + (Deno.env.get('PHONE_AUTH_SECRET') || 's3cr3tM1st3rVite')
 

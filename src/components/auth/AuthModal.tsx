@@ -18,13 +18,16 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   if (!isOpen) return null;
 
+  const getFormattedPhone = () => {
+    return phone.startsWith('+') ? phone : `+55${phone.replace(/\D/g, '')}`;
+  };
+
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
 
-    // Format phone minimally if needed, but user should type DDI+DDD
-    const formattedPhone = phone.startsWith('+') ? phone : `+55${phone.replace(/\D/g, '')}`;
+    const formattedPhone = getFormattedPhone();
 
     try {
       const { data, error } = await supabase.functions.invoke('send-whatsapp-otp', {
@@ -50,7 +53,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setLoading(true);
     setMessage(null);
 
-    const formattedPhone = phone.startsWith('+') ? phone : `+55${phone.replace(/\D/g, '')}`;
+    const formattedPhone = getFormattedPhone();
 
     try {
       const { data, error } = await supabase.functions.invoke('verify-whatsapp-otp', {
