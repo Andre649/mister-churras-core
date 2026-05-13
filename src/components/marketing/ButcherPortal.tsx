@@ -24,9 +24,10 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
         .insert([formData]);
       if (error) throw error;
       setSuccess(true);
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao submeter o ofício. Tente novamente.');
+    } catch (err: any) {
+      console.error('Erro na submissão:', err);
+      const errorMsg = err?.message || 'Erro ao submeter o ofício.';
+      alert(`Falha no Pacto: ${errorMsg}. Verifique se a tabela butcher_prospects existe e se as chaves do Supabase estão corretas.`);
     } finally {
       setIsSubmitting(false);
     }
