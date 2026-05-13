@@ -1,41 +1,35 @@
-# Integração Google Sheets e Plano de Hospedagem
+# 📊 Guia de Automação: Google Sheets e Webhooks
 
-Bucanero, para que os dados dos parceiros fluam como vinho em banquete, apresento a arquitetura de automação e as recomendações de morada para o app.
+Bucanero, para que os dados fluam automaticamente para sua planilha, siga este ritual técnico.
 
-## 📊 1. Integração Google Sheets (Automação)
+## 🛡️ 1. Criar a Planilha
+1.  Crie uma planilha no Google Sheets com o nome: **Mister Churras - Leads de Parceiros**.
+2.  Crie os cabeçalhos na primeira linha: `Data`, `Nome`, `Açougue`, `Especialidade`, `Cidade`, `WhatsApp`.
 
-Para que o formulário do **Portal dos Fornecedores** alimente uma planilha automaticamente, recomendo a **Arquitetura de Fluxo Espelho**:
+## 🏰 2. Configurar o Make.com (Ponte)
+1.  Crie uma conta gratuita no [Make.com](https://make.com).
+2.  Crie um novo **Scenario**.
+3.  **Gatilho (Trigger)**: Procure pelo módulo **Webhooks** -> **Custom Webhook**.
+4.  Clique em **Add** e copie o endereço URL gerado (ex: `https://hook.us1.make.com/xxxxxx`).
+5.  **Ação (Action)**: Procure pelo módulo **Google Sheets** -> **Add a Row**.
+6.  Conecte sua conta do Google e selecione a planilha criada no passo 1.
+7.  Mapeie as colunas da planilha com os dados que virão do Webhook.
 
-| Método | Ferramenta | Vantagem |
-| :--- | :--- | :--- |
-| **Ponte Inteligente** | **Make.com (Integromat)** | Extremamente rápido de configurar. Monitora a tabela `butcher_prospects` no Supabase e insere no Google Sheets em tempo real. |
-| **Elite Técnica** | **Supabase Edge Functions** | Código puro (Deno) que dispara um POST para a API do Google Sheets. Sem ferramentas terceiras. |
-
-### 🚀 Minha Recomendação: Make.com
-Para o lançamento, usaremos o **Make.com**. Ele permite criar um "Webhook" no Supabase que avisa o Make sempre que um novo açougue se cadastrar. O Make então formata os dados e preenche sua planilha.
-- **Custo**: Zero (Plano Free cobre até 1000 operações/mês).
-
----
-
-## 🏰 2. Recomendações de Hospedagem (Veredito)
-
-Após analisar o terreno, minha recomendação de "Luxo Técnico" para o **Mister Churras Chronicles** é:
-
-### **Vercel (A Morada do Frontend)**
-- **Por que?**: É o padrão ouro para aplicações Vite/React. Possui deploy automático via GitHub e uma rede global que garante que o app abra em milissegundos.
-- **Domínio**: Facilidade extrema para apontar `misterchurras.app`.
-- **Custo**: Free para o tráfego inicial.
-
-### **Supabase (O Cofre do Ritual)**
-- **Por que?**: Já estamos usando para Banco de Dados e Auth. É imbatível em segurança (RLS) e escalabilidade.
-- **Hospedagem**: O backend já mora lá.
+## 🔗 3. Ativar o Webhook no Supabase
+1.  Vá ao painel do **Supabase** -> **Database** -> **Webhooks**.
+2.  Crie um novo Webhook:
+    *   **Name**: `notify_make_leads`
+    *   **Table**: `butcher_prospects`
+    *   **Events**: `INSERT`
+    *   **Webhook URL**: Cole a URL do Make.com obtida no passo 2.
+3.  Salve.
 
 ---
 
-## 🛠️ Próximos Passos Imediatos
+## 📱 4. Fluxo de Notificação WhatsApp
+Eu já configurei o código para que, assim que o açougueiro clicar em enviar:
+1.  Os dados são gravados no **Supabase**.
+2.  O **Supabase** dispara o Webhook para o **Make.com**, que alimenta sua **Planilha**.
+3.  O navegador do usuário abrirá automaticamente o **seu WhatsApp** com o "Ofício de Honra" preenchido com todos os dados dele.
 
-1.  **Conectar GitHub à Vercel**: Realizar o primeiro deploy em ambiente de staging.
-2.  **Criar Planilha "Mister Churras - Leads"**: Criar a planilha no Google Drive.
-3.  **Configurar Webhook**: Ativar o gatilho no Supabase para enviar os dados ao Make.com.
-
-_Bucanero, a engrenagem está pronta. Devo proceder com a configuração do Webhook no Supabase?_
+_Bucanero, o sistema agora é uma sinfonia de fogo e dados._

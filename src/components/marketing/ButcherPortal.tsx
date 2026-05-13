@@ -24,6 +24,24 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
         .insert([formData]);
       if (error) throw error;
       setSuccess(true);
+      
+      // Notificar Bucanero via WhatsApp
+      const adminPhone = '5511999999999'; // Número do Bucanero
+      const message = encodeURIComponent(
+        `*📜 NOVO OFÍCIO DE PARCERIA - MISTER CHURRAS*\n\n` +
+        `*Mestre/Proprietário:* ${formData.name}\n` +
+        `*Casa de Carnes:* ${formData.shopName}\n` +
+        `*Corte de Consagração:* ${formData.specialty || 'Não informado'}\n` +
+        `*Comarca:* ${formData.city}\n` +
+        `*WhatsApp:* ${formData.whatsapp}\n\n` +
+        `_Um novo parceiro solicita consagração na Guilda!_`
+      );
+      
+      // Abrir WhatsApp do Admin após breve delay para o usuário ver o sucesso
+      setTimeout(() => {
+        window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
+      }, 1500);
+
     } catch (err: any) {
       console.error('Erro na submissão:', err);
       const errorMsg = err?.message || 'Erro ao submeter o ofício.';
