@@ -49,7 +49,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-4 relative overflow-hidden bg-pergaminho text-prensa font-sans antialiased">
+    <div className="min-h-screen flex flex-col p-4 relative overflow-hidden font-sans antialiased">
       {/* Paper texture overlay */}
       <div className="absolute inset-0 bg-paper-texture opacity-20 pointer-events-none" />
       
