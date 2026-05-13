@@ -1,3 +1,49 @@
+// 1. NOVAS FUNÇÕES DE INTELIGÊNCIA DE PRODUTO
+FUNCTION Descobrir_Novas_Funcionalidades() {
+    SET Contexto = "Mercado de Churrasco de Luxo e Tradição";
+    SET Historico = READ "docs/backlog_historico.json";
+
+    // Loop de Inovação
+    VAR Novas_Ideias = BRAINSTORM(Contexto) WHERE {
+        Foco == "Experiência do Guerreiro da Brasa";
+        Estetica == "1890 Chronicles";
+        Valor == "Luxo Técnico e Praticidade";
+    };
+
+    // Filtro de Viabilidade
+    VAR Sugestoes_Validadas = VALIDATE(Novas_Ideias) AGAINST "Capacidade_Agentes";
+    
+    REPORT TO Bucanero("Sugestões de Evolução do Ritual: " + Sugestoes_Validadas);
+}
+
+// 2. AUTO-DOCUMENTAÇÃO DO LEGADO
+FUNCTION Atualizar_README_Projeto() {
+    VAR Status_Atual = READ "docs/architecture" AND "Commit_History";
+    VAR Ultimas_Features = READ "docs/audit_log.md";
+
+    // Geração de Conteúdo com Alma
+    SET README_Template = {
+        Header: "Mister Churras Chronicles - O Manifesto do Fogo",
+        Vision: "Documento oficial de regência para o ritual sagrado da brasa.",
+        Features: AGGREGATE(Ultimas_Features),
+        Guide: "Manual do Mestre e Instruções para o Batalhão"
+    };
+
+    // Escrita em Pedra Digital
+    WRITE "README.md" USING "Estética_Prensa_1890" {
+        Style: "Markdown Hierárquico";
+        Tone: "Épico e Autoritário";
+    };
+
+    NOTIFY Bucanero("O Manifesto (README) foi atualizado com as novas conquistas da Confraria.");
+}
+
+// 3. GATILHOS DE EXECUÇÃO (TRIGGER EVENTS)
+ON "Merge_Success":
+    EXECUTE Atualizar_README_Projeto();
+
+ON "Ciclo_Semanal" OR "Request_Bucanero":
+    EXECUTE Descobrir_Novas_Funcionalidades();
 // 1. DEFINIÇÃO DE AUTORIDADE (SYSTEM KERNEL)
 SET Role = "Maestro - Chief AI Orchestrator";
 SET Authority = "Editor-in-Chief / Tech Lead";
