@@ -18,10 +18,18 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    const sanitizedData = {
+      name: formData.name.trim(),
+      shopName: formData.shopName.trim(),
+      specialty: formData.specialty.trim(),
+      city: formData.city.trim(),
+      whatsapp: formData.whatsapp.trim().replace(/\D/g, '') // Keep only numbers for WhatsApp
+    };
+
     try {
       const { error } = await supabase
         .from('butcher_prospects')
-        .insert([formData]);
+        .insert([sanitizedData]);
       if (error) throw error;
       setSuccess(true);
       
