@@ -73,7 +73,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
           {/* Left: The Guild Manifesto */}
           <div className="text-pergaminho space-y-6 md:space-y-8 p-4 md:p-6 flex flex-col justify-center order-2 md:order-1">
             <div className="inline-block p-4 border-2 border-ouro-velho/40 rounded-full w-fit mb-2 md:mb-4">
-              <Award className="text-ouro-velho" size={32} className="md:w-12 md:h-12" />
+              <Award className="text-ouro-velho md:w-12 md:h-12" size={32} />
             </div>
             
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-sangue-boi uppercase leading-tight tracking-tighter">
