@@ -120,7 +120,7 @@ function AppContent() {
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       <GuestManager isOpen={isGuestManagerOpen} onClose={() => setIsGuestManagerOpen(false)} />
-      <SeloBucanero onClick={() => window.open('https://github.com', '_blank')} />
+      <SeloBucanero onClick={handleReset} />
     </div>
   );
 }
