@@ -4,7 +4,8 @@
 
 @layer base {
   body {
-    @apply bg-pergaminho text-prensa font-sans min-h-screen antialiased;
+    background-color: #F4ECD8;
+    @apply text-prensa font-sans min-h-screen antialiased;
     background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
   }
 }
