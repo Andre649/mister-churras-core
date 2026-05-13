@@ -2,23 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .glow-brasa {
-    box-shadow: 0 0 15px rgba(234, 88, 12, 0.4);
-  }
-  .glow-brasa-hover {
-    box-shadow: 0 0 25px rgba(234, 88, 12, 0.6);
-  }
-  .pulse-brasa {
-    animation: pulse-brasa 2s infinite alternate ease-in-out;
+@layer base {
+  body {
+    @apply bg-pergaminho text-prensa font-sans min-h-screen antialiased;
+    background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
   }
 }
 
-@keyframes pulse-brasa {
+@layer utilities {
+  .border-vitoriana {
+    border-style: double;
+    border-width: 4px;
+    @apply border-madeira;
+  }
+  
+  .glow-ouro {
+    box-shadow: 0 0 15px rgba(184, 134, 11, 0.4);
+  }
+
+  .pulse-ritual {
+    animation: pulse-ritual 3s infinite alternate ease-in-out;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-madeira/30 rounded-full hover:bg-madeira/50;
+  }
+}
+
+@keyframes pulse-ritual {
   0% {
-    box-shadow: 0 0 15px rgba(211, 84, 0, 0.5), inset 0 0 5px rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.4);
   }
   100% {
-    box-shadow: 0 0 30px rgba(234, 88, 12, 0.8), inset 0 0 10px rgba(234, 88, 12, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(184, 134, 11, 0.6);
   }
 }

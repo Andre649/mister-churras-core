@@ -32,54 +32,55 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
   return (
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-serif font-bold text-[#D35400] mb-2 uppercase tracking-wide">Defina o Batalhão</h2>
-        <p className="text-[#BDC3C7]">Prepare sua tropa para a brasa.</p>
+        <p className="text-sangue-boi text-[10px] font-serif font-bold uppercase tracking-[0.3em] mb-2">Chronicles of Fire</p>
+        <h2 className="text-3xl font-serif font-bold text-prensa mb-2 uppercase tracking-wide">Tamanho do Batalhão</h2>
+        <p className="text-madeira/70 font-sans italic">Defina as almas que honrarão a brasa.</p>
       </div>
 
       <div className="space-y-4 mb-8">
         <Counter 
-          label="Guerreiros" 
+          label="Guerreiros (Homens)" 
           value={guests.men} 
           onChange={(v) => updateGuest('men', v)} 
-          icon={<Users size={24} />}
+          icon={<Users size={24} className="text-madeira" />}
         />
         <Counter 
-          label="Guardiãs" 
+          label="Guardiãs (Mulheres)" 
           value={guests.women} 
           onChange={(v) => updateGuest('women', v)} 
-          icon={<User size={24} />}
+          icon={<User size={24} className="text-madeira" />}
         />
         <Counter 
-          label="Aprendizes" 
+          label="Aprendizes (Crianças)" 
           value={guests.kids} 
           onChange={(v) => updateGuest('kids', v)} 
-          icon={<Baby size={24} />}
+          icon={<Baby size={24} className="text-madeira" />}
         />
         
-        <div className="pt-4 mt-4 border-t border-zinc-900">
+        <div className="pt-4 mt-4 border-t border-madeira/20">
           <Counter 
             label="Bebem Cerveja" 
             value={guests.drinkers} 
             onChange={(v) => updateGuest('drinkers', v)} 
             max={totalAdults}
-            icon={<Beer size={24} />}
+            icon={<Beer size={24} className="text-madeira" />}
           />
-          <p className="text-xs text-zinc-500 mt-2">
-            Máximo igual ao número de Guerreiros + Guardiãs.
+          <p className="text-[10px] text-madeira/50 mt-2 font-sans italic">
+            Máximo igual ao número de Guerreiros e Guardiãs.
           </p>
         </div>
 
-        <div className="pt-4 mt-4 border-t border-zinc-900">
+        <div className="pt-4 mt-4 border-t border-madeira/20">
           <Counter 
-            label="Tempo de Fogo (Horas)" 
+            label="O Ritual de Fogo (Horas)" 
             value={durationHours} 
             onChange={setDurationHours} 
             min={1}
             max={24}
-            icon={<Clock size={24} />}
+            icon={<Clock size={24} className="text-madeira" />}
           />
-          <p className="text-xs text-center text-zinc-500 mt-2">
-            O Mestre recomenda no mínimo 4 horas de fogo.
+          <p className="text-[10px] text-center text-madeira/50 mt-2 font-sans italic">
+            O Mestre recomenda no mínimo 4 horas de fogo contínuo.
           </p>
         </div>
       </div>
@@ -91,7 +92,7 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
         className="text-lg mt-4"
         variant="primary"
       >
-        INICIAR O RITUAL <Flame className="ml-2 animate-pulse" size={24} />
+        ACENDER O FOGO <Flame className="ml-2" size={24} />
       </Button>
     </Card>
   );

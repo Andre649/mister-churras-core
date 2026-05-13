@@ -7,20 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        carvao: {
-          900: '#18181B', // zinc-900
-          950: '#09090B', // zinc-950
-        },
-        brasa: {
-          500: '#F97316', // orange-500
-          600: '#EA580C', // orange-600
-          700: '#C2410C', // orange-700
-        },
-        offwhite: '#F5F5F4', // stone-100
+        pergaminho: '#F4ECD8',
+        prensa: '#1A1A1A',
+        'ouro-velho': '#B8860B',
+        'sangue-boi': '#8B0000',
+        madeira: '#4A3728',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        sans: ['Special Elite', 'Courier Prime', 'monospace'],
+        serif: ['Cinzel', 'Old Standard TT', 'serif'],
+        mono: ['Roboto Mono', 'monospace'],
+      },
+      backgroundImage: {
+        'paper-texture': "url('https://www.transparenttextures.com/patterns/parchment.png')",
       }
     },
   },

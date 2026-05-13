@@ -1,0 +1,34 @@
+{
+  "project": "Mister Churras",
+  "version": "1.1.0",
+  "qa_specialist": "Maestro",
+  "checks": [
+    {
+      "id": "BUILD_01",
+      "description": "Ensure the project builds without errors",
+      "command": "npm run build"
+    },
+    {
+      "id": "LINT_01",
+      "description": "Check for linting errors",
+      "command": "npm run lint"
+    },
+    {
+      "id": "CALC_01",
+      "description": "Verify calculation logic accuracy",
+      "command": "python tests/simulador_qa.py"
+    }
+  ],
+  "critical_scenarios": [
+    "User can log in with email/password",
+    "User can create a new calculation",
+    "User can save calculation to history (authenticated)",
+    "User is prompted to log in when saving (unauthenticated)",
+    "WhatsApp link generates correctly with shopping list"
+  ],
+  "deployment_gate": {
+    "required_approval": "Maestro",
+    "test_coverage_min": 0,
+    "stress_test_required": true
+  }
+}

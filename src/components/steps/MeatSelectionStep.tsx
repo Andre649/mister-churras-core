@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { cn } from '../ui/Button';
+import { cn } from '../../utils/cn';
 import { ArrowLeft, Flame, Check } from 'lucide-react';
 import type { MenuSelection } from '../../utils/calculator';
 
@@ -25,21 +25,21 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack }: MeatSelec
       <button
         onClick={() => toggleMeat(type)}
         className={cn(
-          "w-full text-left p-4 rounded-xl border-2 transition-all duration-300 flex items-center justify-between",
+          "w-full text-left p-4 rounded-none border-2 transition-all duration-300 flex items-center justify-between",
           isSelected 
-            ? "border-brasa-500 bg-brasa-500/10 shadow-[0_0_15px_rgba(234,88,12,0.1)]" 
-            : "border-zinc-800 bg-carvao-950/50 hover:border-zinc-600"
+            ? "border-sangue-boi bg-sangue-boi/5 shadow-md" 
+            : "border-madeira/20 bg-pergaminho/50 hover:border-madeira/50"
         )}
       >
         <div>
-          <h3 className={cn("font-bold text-lg", isSelected ? "text-brasa-500" : "text-offwhite")}>
+          <h3 className={cn("font-serif font-bold text-lg uppercase", isSelected ? "text-sangue-boi" : "text-prensa")}>
             {label}
           </h3>
-          <p className="text-zinc-400 text-sm mt-1">{description}</p>
+          <p className="text-madeira/60 text-xs font-sans italic mt-1">{description}</p>
         </div>
         <div className={cn(
-          "w-6 h-6 rounded-full flex items-center justify-center transition-colors",
-          isSelected ? "bg-brasa-500 text-white" : "bg-zinc-800 text-transparent"
+          "w-6 h-6 rounded-full border border-madeira flex items-center justify-center transition-colors",
+          isSelected ? "bg-sangue-boi text-pergaminho" : "bg-transparent text-transparent"
         )}>
           <Check size={14} strokeWidth={3} />
         </div>
@@ -50,10 +50,10 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack }: MeatSelec
   return (
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-right-8 duration-500">
       <div className="flex items-center gap-4 mb-6">
-        <button onClick={onBack} className="text-zinc-400 hover:text-white transition-colors">
+        <button onClick={onBack} className="text-madeira hover:text-sangue-boi transition-colors">
           <ArrowLeft size={24} />
         </button>
-        <h2 className="text-2xl font-serif font-bold text-brasa-500">O que vai pra grelha?</h2>
+        <h2 className="text-2xl font-serif font-bold text-prensa uppercase tracking-widest">O Mapa da Brasa</h2>
       </div>
 
       <div className="space-y-3 mb-8">
@@ -62,7 +62,7 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack }: MeatSelec
         <MeatOption type="frango" label="Frango" description="Coraçãozinho, Tulipa, Sobrecoxa desossada" />
         <MeatOption type="linguica" label="Linguiça" description="Toscana, Apimentada, Cuiabana" />
         <div className="pt-4 pb-2">
-          <h3 className="text-zinc-400 font-serif font-bold text-lg">Guarnições da Casa</h3>
+          <h3 className="text-madeira/60 font-serif font-bold text-lg uppercase tracking-tighter border-b border-madeira/20">Guarnições da Confraria</h3>
         </div>
         <MeatOption type="paoDeAlho" label="Pão de Alho" description="O clássico intocável (2 por guerreiro)" />
         <MeatOption type="queijoCoalho" label="Queijo Coalho" description="Dourado e derretido (1 por pessoa)" />

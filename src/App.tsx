@@ -3,15 +3,18 @@ import { SetupStep } from './components/steps/SetupStep';
 import { MeatSelectionStep } from './components/steps/MeatSelectionStep';
 import { ResultsStep } from './components/steps/ResultsStep';
 import { calculateChurras, type Guests, type MenuSelection, type CalculationResult } from './utils/calculator';
-import { Flame, LogIn, LogOut } from 'lucide-react';
+import { Flame, LogIn, LogOut, Users } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
+import { GuestManager } from './components/auth/GuestManager';
+import { SeloBucanero } from './components/ui/SeloBucanero';
 
 type Step = 'setup' | 'meats' | 'results';
 
 function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isGuestManagerOpen, setIsGuestManagerOpen] = useState(false);
   const { user, signOut } = useAuth();
   
   // State for Setup
@@ -46,32 +49,37 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-4 relative overflow-hidden bg-[#0a0807] text-offwhite font-sans antialiased">
-      {/* Background rustic texture (wood/charcoal) */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#1c1410]/20 to-black/80 pointer-events-none mix-blend-multiply" />
-      
-      {/* Background ambient glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brasa-600/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="min-h-screen flex flex-col p-4 relative overflow-hidden bg-pergaminho text-prensa font-sans antialiased">
+      {/* Paper texture overlay */}
+      <div className="absolute inset-0 bg-paper-texture opacity-20 pointer-events-none" />
       
       {/* Header */}
-      <header className="py-6 px-4 flex justify-between items-center relative z-10 w-full max-w-4xl mx-auto">
+      <header className="py-6 px-4 flex justify-between items-center relative z-10 w-full max-w-4xl mx-auto border-b-2 border-madeira/20">
         <div className="flex items-center gap-3">
-          <Flame className="text-brasa-500 animate-[pulse-brasa_2s_infinite]" size={36} />
-          <h1 className="font-serif text-2xl md:text-4xl font-bold tracking-tight text-offwhite drop-shadow-lg">
-            Mister <span className="text-brasa-500">Churras</span>
+          <Flame className="text-sangue-boi" size={36} />
+          <h1 className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-prensa drop-shadow-sm uppercase">
+            Mister <span className="text-sangue-boi">Churras</span>
           </h1>
+          <p className="hidden md:block text-[10px] uppercase tracking-[0.3em] text-madeira font-bold font-serif ml-2">Chronicles</p>
         </div>
         <div>
           {user ? (
-            <div className="flex items-center gap-4">
-              <span className="hidden md:inline text-zinc-400 text-sm">{user.phone || user.email}</span>
-              <button onClick={signOut} className="flex items-center gap-2 text-zinc-400 hover:text-[#C0392B] transition-colors" title="Sair da Caderneta">
+            <div className="flex items-center gap-4 font-sans">
+              <button 
+                onClick={() => setIsGuestManagerOpen(true)} 
+                className="hidden md:flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors"
+                title="Gerenciar Batalhão"
+              >
+                <Users size={20} /> <span className="text-xs font-bold uppercase tracking-widest">Batalhão</span>
+              </button>
+              <span className="hidden md:inline text-madeira text-sm italic">{user.email}</span>
+              <button onClick={signOut} className="flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors" title="Sair da Confraria">
                 <LogOut size={24} />
               </button>
             </div>
           ) : (
-            <button onClick={() => setIsAuthModalOpen(true)} className="flex items-center gap-2 text-brasa-500 hover:text-[#E67E22] transition-colors font-bold px-4 py-2 border-2 border-brasa-500/50 rounded-lg hover:bg-brasa-500/10">
-              <LogIn size={20} /> <span className="hidden md:inline">Caderneta do Mestre</span>
+            <button onClick={() => setIsAuthModalOpen(true)} className="flex items-center gap-2 text-sangue-boi hover:text-madeira transition-colors font-serif font-bold px-4 py-2 border-2 border-madeira/50 uppercase tracking-widest text-xs">
+              <LogIn size={20} /> <span className="hidden md:inline">Acessar Confraria</span>
             </button>
           )}
         </div>
@@ -102,6 +110,7 @@ function AppContent() {
           <ResultsStep 
             result={result}
             durationHours={durationHours}
+            guests={guests}
             onBack={() => setCurrentStep('meats')}
             onReset={handleReset}
             onRequestAuth={() => setIsAuthModalOpen(true)}
@@ -110,6 +119,8 @@ function AppContent() {
       </main>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      <GuestManager isOpen={isGuestManagerOpen} onClose={() => setIsGuestManagerOpen(false)} />
+      <SeloBucanero onClick={() => window.open('https://github.com', '_blank')} />
     </div>
   );
 }

@@ -1,13 +1,8 @@
 import React from 'react';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '../../utils/cn';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   fullWidth?: boolean;
 }
 
@@ -18,16 +13,19 @@ export function Button({
   children, 
   ...props 
 }: ButtonProps) {
+  const variants = {
+    primary: "bg-sangue-boi text-pergaminho border-2 border-madeira shadow-[2px_2px_0px_#4A3728] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none",
+    secondary: "bg-ouro-velho text-prensa border-2 border-madeira shadow-[2px_2px_0px_#4A3728] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none",
+    outline: "bg-transparent border-2 border-madeira text-prensa hover:bg-madeira/10",
+    ghost: "bg-transparent text-zinc-500 hover:text-prensa hover:bg-madeira/5",
+  };
+
   return (
     <button
       className={cn(
-        "px-6 py-4 rounded-none border-y-2 border-zinc-900 font-serif font-bold text-lg uppercase tracking-wide transition-all duration-300 transform active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2",
-        {
-          "bg-gradient-to-r from-[#8e2900] via-brasa-600 to-[#8e2900] text-offwhite pulse-brasa hover:glow-brasa-hover shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] border-x-4 border-x-zinc-900": variant === 'primary',
-          "bg-carvao-900 text-offwhite hover:bg-carvao-950 border-x-4 border-zinc-800 hover:border-zinc-700 shadow-[inset_0_0_10px_rgba(0,0,0,0.8)]": variant === 'secondary',
-          "bg-transparent border-2 border-brasa-500 text-brasa-500 hover:bg-brasa-500/10": variant === 'outline',
-          "w-full": fullWidth,
-        },
+        "inline-flex items-center justify-center px-6 py-2.5 font-serif font-bold uppercase tracking-[0.2em] text-sm transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none",
+        variants[variant],
+        fullWidth ? "w-full" : "",
         className
       )}
       {...props}
