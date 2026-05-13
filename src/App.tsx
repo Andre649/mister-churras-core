@@ -16,7 +16,7 @@ function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isGuestManagerOpen, setIsGuestManagerOpen] = useState(false);
-  const [isButcherPortalOpen, setIsButcherPortalOpen] = useState(false);
+  const [isButcherPortalOpen, setIsButcherPortalOpen] = useState(window.location.search.includes('portal=butcher'));
   const { user, signOut } = useAuth();
   
   // State for Setup
