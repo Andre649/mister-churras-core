@@ -8,6 +8,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
 import { GuestManager } from './components/auth/GuestManager';
 import { SeloBucanero } from './components/ui/SeloBucanero';
+import { ButcherPortal } from './components/marketing/ButcherPortal';
 
 type Step = 'setup' | 'meats' | 'results';
 
@@ -15,6 +16,7 @@ function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isGuestManagerOpen, setIsGuestManagerOpen] = useState(false);
+  const [isButcherPortalOpen, setIsButcherPortalOpen] = useState(false);
   const { user, signOut } = useAuth();
   
   // State for Setup
@@ -118,6 +120,17 @@ function AppContent() {
         )}
       </main>
 
+      {/* Footer / B2B Link */}
+      <footer className="py-4 text-center relative z-10">
+        <button 
+          onClick={() => setIsButcherPortalOpen(true)}
+          className="text-[10px] uppercase tracking-[0.2em] text-madeira/50 hover:text-sangue-boi transition-colors font-serif font-bold"
+        >
+          Sou Açougueiro? <span className="underline">Seja um Parceiro da Confraria</span>
+        </button>
+      </footer>
+
+      {isButcherPortalOpen && <ButcherPortal onClose={() => setIsButcherPortalOpen(false)} />}
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       <GuestManager isOpen={isGuestManagerOpen} onClose={() => setIsGuestManagerOpen(false)} />
       <SeloBucanero onClick={handleReset} />
