@@ -19,8 +19,8 @@ Para resolver a principal dor de quem organiza um churrasco: o medo de faltar ca
 O cronograma do projeto é dividido em Fases de Entregas Contínuas:
 - ✅ **Fase 1: Documentação de Engenharia (Concluída)** - Criação de *Arquitetura*, *Design System*, *Banco de Dados* e *Algoritmos*.
 - ✅ **Fase 2: Frontend e Lógica Base (Concluída)** - Restauração do projeto Vite, implementação da UI e motor de cálculo `calculator.ts`.
-- ⏳ **Fase 3: Integração Backend (Próximo Passo)** - Conexão com Supabase Auth (Google/Magic Link) e banco de dados para salvar "Eventos" e "Listas de Compras".
-- 🔜 **Fase 4: Otimização PWA e Deploy (Futuro)** - Cache offline (Service Workers) e publicação do app (Vercel/Netlify).
+- ✅ **Fase 3: Integração Backend (Concluída)** - Conexão com Supabase Auth e banco de dados para salvar "Eventos" e "Listas de Compras".
+- ⏳ **Fase 4: Otimização PWA e Deploy (Atual)** - Cache offline (Service Workers) e publicação do app (Vercel).
 
 ### 5. WHO (Quem fará?)
 A execução está sendo guiada pelo time de Inteligência Artificial:
