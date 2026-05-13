@@ -140,8 +140,8 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
   const sideItems: { label: string, value: string }[] = [];
   if (result.sides.paoDeAlho > 0) sideItems.push({ label: 'Pão de Alho', value: `${result.sides.paoDeAlho} un` });
   if (result.sides.queijoCoalho > 0) sideItems.push({ label: 'Queijo Coalho', value: `${result.sides.queijoCoalho} un` });
-  if (result.sides.farofa > 0) sideItems.push({ label: 'Farofa do Mestre', value: `${result.sides.farofa} kg` });
-  if (result.sides.vinagrete > 0) sideItems.push({ label: 'Vinagrete Imperial', value: `${result.sides.vinagrete} kg` });
+  if (result.sides.farofa > 0) sideItems.push({ label: 'Farofa na Brasa', value: `${result.sides.farofa} kg` });
+  if (result.sides.vinagrete > 0) sideItems.push({ label: 'Vinagrete da Parrilha', value: `${result.sides.vinagrete} kg` });
 
   const drinkItems = [
     { label: 'Cerveja (Latas)', value: `${result.drinks.beer} un` },
@@ -156,9 +156,9 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
   const formatWhatsAppMessage = () => {
     if (!result) return '';
     
-    let message = '*🔥 MISTER CHURRAS CHRONICLES 🔥*\n\n';
-    message += `_Saudações, Guerreiro! O Ritual de Fogo terá duração de ${durationHours} horas._\n\n`;
-    message += '*📜 PROVISÕES DO AÇOUGUE*\n';
+    let message = '*🔥 MISTER CHURRAS - NA BRASA 🔥*\n\n';
+    message += `_O churrasco está pronto para começar! Duração prevista: ${durationHours} horas._\n\n`;
+    message += '*📜 LISTA DO AÇOUGUE*\n';
     
     if (meatItems.length > 0) {
       meatItems.forEach(item => {
@@ -183,7 +183,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
       message += '\n';
     }
     
-    message += '_Honre o fogo. Gerado pelo Mister Churras Chronicles._';
+    message += '_Churrasco calculado pelo Mister Churras - O Mestre da Brasa._';
     return encodeURIComponent(message);
   };
 
@@ -225,7 +225,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
           <ArrowLeft size={24} />
         </button>
         <h2 className="text-2xl font-serif font-bold text-prensa uppercase tracking-widest">
-          Consagrar o Corte
+          Selar o Pedido
         </h2>
       </div>
 
@@ -254,23 +254,23 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
           </Button>
         </div>
 
-        <Button variant="secondary" fullWidth onClick={() => {
+          <Button variant="secondary" fullWidth onClick={() => {
           if (!user) { onRequestAuth(); return; }
           setIsGuestSelectorOpen(true);
         }}>
-          <Users className="mr-2" size={18} /> Convocar Tropa
+          <Users className="mr-2" size={18} /> Chamar a Galera
         </Button>
 
         {isGuestSelectorOpen && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
             <Card className="w-full max-w-sm">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-serif font-bold text-prensa uppercase tracking-tighter">Selecionar Batalhão</h3>
+                <h3 className="text-xl font-serif font-bold text-prensa uppercase tracking-tighter">Quem vai pro espeto?</h3>
                 <button onClick={() => setIsGuestSelectorOpen(false)} className="text-madeira hover:text-sangue-boi"><X size={20} /></button>
               </div>
               <div className="max-h-[40vh] overflow-y-auto mb-6 pr-2 custom-scrollbar font-sans">
                 {availableGuests.length === 0 ? (
-                  <p className="text-center text-madeira py-4 italic text-sm">Nenhuma alma convocada ainda. Gerencie no topo do manifesto.</p>
+                  <p className="text-center text-madeira py-4 italic text-sm">Ninguém na lista ainda. Cadastre o time lá no topo.</p>
                 ) : (
                   <ul className="space-y-2">
                     {availableGuests.map(guest => (
@@ -298,14 +298,14 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
                 onClick={handleBulkSend}
                 disabled={selectedGuests.length === 0 || bulkLoading}
               >
-                {bulkLoading ? <Loader2 className="animate-spin mx-auto" size={20} /> : `Notificar ${selectedGuests.length} Guerreiros`}
+                {bulkLoading ? <Loader2 className="animate-spin mx-auto" size={20} /> : `Avisar ${selectedGuests.length} do Time`}
               </Button>
             </Card>
           </div>
         )}
 
         <Button variant="ghost" fullWidth onClick={onReset} className="text-madeira/50 hover:text-prensa">
-          <RefreshCw className="mr-2" size={18} /> Novo Ritual
+          <RefreshCw className="mr-2" size={18} /> Outra Rodada
         </Button>
       </div>
     </Card>

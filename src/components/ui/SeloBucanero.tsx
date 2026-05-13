@@ -21,7 +21,7 @@ export function SeloBucanero({ className, onClick }: { className?: string, onCli
 
       {/* Tooltip hint */}
       <div className="absolute -top-12 right-0 bg-madeira text-pergaminho text-[10px] px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap font-serif uppercase tracking-widest border border-ouro-velho shadow-lg">
-        Reiniciar Ritual
+        Nova Rodada
       </div>
     </button>
   );

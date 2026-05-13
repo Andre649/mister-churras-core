@@ -20,7 +20,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
       setSuccess(true);
     } catch (err) {
       console.error(err);
-      alert('Erro ao enviar manifesto. Tente novamente.');
+      alert('Erro ao enviar ficha. Tente novamente.');
     } finally {
       setIsSubmitting(false);
     }
@@ -37,35 +37,35 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
         </button>
 
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          {/* Left: Manifesto */}
+          {/* Left: BBQ Value Prop */}
           <div className="text-pergaminho space-y-6 p-4">
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-sangue-boi uppercase leading-tight tracking-tighter">
-              O Manifesto do <span className="text-ouro-velho">Fornecedor Oficial</span>
+              Seja o Fornecedor <span className="text-ouro-velho">Oficial da Brasa</span>
             </h2>
             <p className="text-lg italic font-sans opacity-80 border-l-4 border-sangue-boi pl-4">
-              "Um ritual sagrado exige provisões de elite. Não somos apenas um app; somos a ponte entre o Mestre da Brasa e o seu açougue."
+              "Um bom churrasco começa no carvão e termina na carne de qualidade. Conectamos seu açougue direto com quem domina a grelha."
             </p>
             
             <div className="space-y-4 pt-6">
               <div className="flex items-start gap-4">
                 <TrendingUp className="text-ouro-velho shrink-0" size={24} />
                 <div>
-                  <h4 className="font-bold uppercase tracking-widest text-sm">Escalabilidade</h4>
-                  <p className="text-xs opacity-60">Acesse centenas de churrasqueiros na sua região que calculam listas exatas todos os finais de semana.</p>
+                  <h4 className="font-bold uppercase tracking-widest text-sm">Mais Brasa no seu Negócio</h4>
+                  <p className="text-xs opacity-60">Acesse churrasqueiros que planejam cada detalhe do espeto e da parrilha toda semana.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Truck className="text-ouro-velho shrink-0" size={24} />
                 <div>
-                  <h4 className="font-bold uppercase tracking-widest text-sm">Logística Direta</h4>
-                  <p className="text-xs opacity-60">Receba pedidos pré-formatados via WhatsApp, prontos para separação e entrega.</p>
+                  <h4 className="font-bold uppercase tracking-widest text-sm">Pedidos Direto na Grelha</h4>
+                  <p className="text-xs opacity-60">Receba listas de carnes prontas via WhatsApp, sem complicação na hora da entrega.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <ShieldCheck className="text-ouro-velho shrink-0" size={24} />
                 <div>
-                  <h4 className="font-bold uppercase tracking-widest text-sm">Selo de Elite</h4>
-                  <p className="text-xs opacity-60">Torne-se um 'Açougue Consagrado' e ganhe destaque nos resultados de cálculo do app.</p>
+                  <h4 className="font-bold uppercase tracking-widest text-sm">Selo de Qualidade</h4>
+                  <p className="text-xs opacity-60">Destaque seu açougue como o parceiro oficial para quem não abre mão de uma boa defumação.</p>
                 </div>
               </div>
             </div>
@@ -76,14 +76,14 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
             {success ? (
               <div className="text-center py-12 space-y-4">
                 <Flame className="text-sangue-boi mx-auto animate-pulse" size={64} />
-                <h3 className="text-2xl font-serif font-bold text-prensa uppercase">Manifesto Recebido!</h3>
-                <p className="text-sm italic">"Em breve, um arauto da Confraria entrará em contato para consagrar sua parceria."</p>
-                <Button variant="primary" fullWidth onClick={onClose}>Voltar ao Ritual</Button>
+                <h3 className="text-2xl font-serif font-bold text-prensa uppercase">Ficha Recebida!</h3>
+                <p className="text-sm italic">"Em breve entraremos em contato para colocar sua carne na nossa vitrine."</p>
+                <Button variant="primary" fullWidth onClick={onClose}>Voltar ao Início</Button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <h3 className="text-xl font-serif font-bold text-prensa uppercase tracking-widest mb-4 border-b border-madeira/20 pb-2">
-                  Pré-Cadastro de Parceiro
+                  Quero ser Parceiro
                 </h3>
                 <div>
                   <label className="block text-[10px] uppercase font-bold text-madeira mb-1">Seu Nome</label>
@@ -96,7 +96,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-madeira mb-1">Nome do Açougue/Butique</label>
+                  <label className="block text-[10px] uppercase font-bold text-madeira mb-1">Nome do Açougue / Casa de Carnes</label>
                   <input 
                     required
                     type="text" 
@@ -107,7 +107,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase font-bold text-madeira mb-1">Cidade/UF</label>
+                    <label className="block text-[10px] uppercase font-bold text-madeira mb-1">Cidade / Região</label>
                     <input 
                       required
                       type="text" 
@@ -117,7 +117,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] uppercase font-bold text-madeira mb-1">WhatsApp de Vendas</label>
+                    <label className="block text-[10px] uppercase font-bold text-madeira mb-1">WhatsApp para Pedidos</label>
                     <input 
                       required
                       type="tel" 
@@ -130,11 +130,11 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                 </div>
                 <div className="pt-4">
                   <Button variant="primary" fullWidth type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? 'Enviando Manifesto...' : 'Solicitar Consagração'}
+                    {isSubmitting ? 'Enviando...' : 'Quero ser Parceiro'}
                   </Button>
                 </div>
                 <p className="text-[9px] text-center opacity-40 uppercase tracking-tighter mt-4">
-                  Ao enviar, você aceita os termos da Confraria Mister Churras.
+                  Seu açougue em destaque para quem entende de brasa.
                 </p>
               </form>
             )}

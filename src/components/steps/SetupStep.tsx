@@ -33,25 +33,25 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center mb-8">
         <p className="text-sangue-boi text-[10px] font-serif font-bold uppercase tracking-[0.3em] mb-2">Chronicles of Fire</p>
-        <h2 className="text-3xl font-serif font-bold text-prensa mb-2 uppercase tracking-wide">Tamanho do Batalhão</h2>
-        <p className="text-madeira/70 font-sans italic">Defina as almas que honrarão a brasa.</p>
+        <h2 className="text-3xl font-serif font-bold text-prensa mb-2 uppercase tracking-wide">Tamanho do Time</h2>
+        <p className="text-madeira/70 font-sans italic">Quem vai dominar a grelha hoje?</p>
       </div>
 
       <div className="space-y-4 mb-8">
         <Counter 
-          label="Guerreiros (Homens)" 
+          label="Churrasqueiros (Homens)" 
           value={guests.men} 
           onChange={(v) => updateGuest('men', v)} 
           icon={<Users size={24} className="text-madeira" />}
         />
         <Counter 
-          label="Guardiãs (Mulheres)" 
+          label="Churrasqueiras (Mulheres)" 
           value={guests.women} 
           onChange={(v) => updateGuest('women', v)} 
           icon={<User size={24} className="text-madeira" />}
         />
         <Counter 
-          label="Aprendizes (Crianças)" 
+          label="Pequenos (Crianças)" 
           value={guests.kids} 
           onChange={(v) => updateGuest('kids', v)} 
           icon={<Baby size={24} className="text-madeira" />}
@@ -66,13 +66,13 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
             icon={<Beer size={24} className="text-madeira" />}
           />
           <p className="text-[10px] text-madeira/50 mt-2 font-sans italic">
-            Máximo igual ao número de Guerreiros e Guardiãs.
+            Máximo igual ao número de adultos no time.
           </p>
         </div>
 
         <div className="pt-4 mt-4 border-t border-madeira/20">
           <Counter 
-            label="O Ritual de Fogo (Horas)" 
+            label="Tempo de Brasa (Horas)" 
             value={durationHours} 
             onChange={setDurationHours} 
             min={1}
@@ -80,7 +80,7 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
             icon={<Clock size={24} className="text-madeira" />}
           />
           <p className="text-[10px] text-center text-madeira/50 mt-2 font-sans italic">
-            O Mestre recomenda no mínimo 4 horas de fogo contínuo.
+            Recomendamos no mínimo 4 horas para uma boa brasa.
           </p>
         </div>
       </div>

@@ -62,7 +62,7 @@ function AppContent() {
           <h1 className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-prensa drop-shadow-sm uppercase">
             Mister <span className="text-sangue-boi">Churras</span>
           </h1>
-          <p className="hidden md:block text-[10px] uppercase tracking-[0.3em] text-madeira font-bold font-serif ml-2">Chronicles</p>
+          <p className="hidden md:block text-[10px] uppercase tracking-[0.3em] text-madeira font-bold font-serif ml-2">Na Brasa</p>
         </div>
         <div>
           {user ? (
@@ -72,16 +72,15 @@ function AppContent() {
                 className="hidden md:flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors"
                 title="Gerenciar Batalhão"
               >
-                <Users size={20} /> <span className="text-xs font-bold uppercase tracking-widest">Batalhão</span>
+                <Users size={20} /> <span className="text-xs font-bold uppercase tracking-widest">Time</span>
               </button>
-              <span className="hidden md:inline text-madeira text-sm italic">{user.email}</span>
-              <button onClick={signOut} className="flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors" title="Sair da Confraria">
+              <button onClick={signOut} className="flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors" title="Sair da Brasa">
                 <LogOut size={24} />
               </button>
             </div>
           ) : (
             <button onClick={() => setIsAuthModalOpen(true)} className="flex items-center gap-2 text-sangue-boi hover:text-madeira transition-colors font-serif font-bold px-4 py-2 border-2 border-madeira/50 uppercase tracking-widest text-xs">
-              <LogIn size={20} /> <span className="hidden md:inline">Acessar Confraria</span>
+              <LogIn size={20} /> <span className="hidden md:inline">Entrar na Brasa</span>
             </button>
           )}
         </div>
