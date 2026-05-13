@@ -33,23 +33,23 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/98 backdrop-blur-2xl overflow-y-auto">
-      <div className="w-full max-w-5xl my-auto py-12">
+    <div className="fixed inset-0 z-[70] flex items-start justify-center p-4 bg-black/98 backdrop-blur-2xl overflow-y-auto pt-20 md:items-center md:pt-4">
+      <div className="w-full max-w-5xl my-auto py-4 md:py-12">
         <button 
           onClick={onClose}
-          className="fixed top-8 right-8 text-madeira hover:text-sangue-boi transition-colors z-[80]"
+          className="fixed top-4 right-4 md:top-8 md:right-8 text-madeira hover:text-sangue-boi transition-colors z-[80] bg-black/50 rounded-full p-1"
         >
-          <X size={40} />
+          <X size={32} className="md:w-10 md:h-10" />
         </button>
 
-        <div className="grid md:grid-cols-2 gap-12 items-stretch">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-stretch">
           {/* Left: The Guild Manifesto */}
-          <div className="text-pergaminho space-y-8 p-6 flex flex-col justify-center">
-            <div className="inline-block p-4 border-2 border-ouro-velho/40 rounded-full w-fit mb-4">
-              <Award className="text-ouro-velho" size={48} />
+          <div className="text-pergaminho space-y-6 md:space-y-8 p-4 md:p-6 flex flex-col justify-center order-2 md:order-1">
+            <div className="inline-block p-4 border-2 border-ouro-velho/40 rounded-full w-fit mb-2 md:mb-4">
+              <Award className="text-ouro-velho" size={32} className="md:w-12 md:h-12" />
             </div>
             
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-sangue-boi uppercase leading-tight tracking-tighter">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-sangue-boi uppercase leading-tight tracking-tighter">
               A Confraria convoca os <span className="text-ouro-velho">Mestres do Corte</span>
             </h2>
             
@@ -92,7 +92,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
               </div>
             </div>
 
-            <Card className="bg-pergaminho p-10 border-8 border-double border-madeira/30 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] relative overflow-hidden">
+            <Card className="bg-pergaminho p-6 md:p-10 border-4 md:border-8 border-double border-madeira/30 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden order-1 md:order-2">
               {/* Parchment background subtle grain overlay */}
               <div className="absolute inset-0 bg-paper-texture opacity-10 pointer-events-none" />
 
@@ -151,14 +151,14 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                       <div>
                         <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Comarca de Atuação</label>
                         <input 
                           required
                           type="text" 
                           placeholder="Cidade/Bairro"
-                          className="w-full bg-transparent border-b-2 border-madeira/20 focus:border-sangue-boi outline-none py-2 font-serif text-lg placeholder:opacity-30 transition-all"
+                          className="w-full bg-transparent border-b-2 border-madeira/20 focus:border-sangue-boi outline-none py-2 font-serif text-base md:text-lg placeholder:opacity-30 transition-all"
                           value={formData.city}
                           onChange={e => setFormData({...formData, city: e.target.value})}
                         />
@@ -169,7 +169,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                           required
                           type="tel" 
                           placeholder="WhatsApp de Pedidos"
-                          className="w-full bg-transparent border-b-2 border-madeira/20 focus:border-sangue-boi outline-none py-2 font-serif text-lg placeholder:opacity-30 transition-all"
+                          className="w-full bg-transparent border-b-2 border-madeira/20 focus:border-sangue-boi outline-none py-2 font-serif text-base md:text-lg placeholder:opacity-30 transition-all"
                           value={formData.whatsapp}
                           onChange={e => setFormData({...formData, whatsapp: e.target.value})}
                         />

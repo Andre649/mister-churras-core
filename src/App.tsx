@@ -56,15 +56,15 @@ function AppContent() {
       <div className="absolute inset-0 bg-paper-texture opacity-20 pointer-events-none" />
       
       {/* Header */}
-      <header className="py-6 px-4 flex justify-between items-center relative z-10 w-full max-w-4xl mx-auto border-b-2 border-madeira/20">
-        <div className="flex items-center gap-3">
-          <Flame className="text-sangue-boi" size={36} />
-          <h1 className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-prensa drop-shadow-sm uppercase">
+      <header className="py-4 md:py-6 px-4 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 w-full max-w-4xl mx-auto border-b-2 border-madeira/20">
+        <div className="flex items-center gap-2 md:gap-3">
+          <Flame className="text-sangue-boi w-8 h-8 md:w-9 md:h-9" />
+          <h1 className="font-serif text-xl md:text-3xl font-bold tracking-tight text-prensa drop-shadow-sm uppercase">
             Mister <span className="text-sangue-boi">Churras</span>
           </h1>
-          <p className="hidden md:block text-[10px] uppercase tracking-[0.3em] text-madeira font-bold font-serif ml-2">Na Brasa</p>
+          <p className="hidden sm:block text-[8px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-madeira font-bold font-serif ml-1 md:ml-2">Na Brasa</p>
         </div>
-        <div>
+        <div className="w-full md:w-auto flex justify-center md:justify-end">
           {user ? (
             <div className="flex items-center gap-4 font-sans">
               <button 
