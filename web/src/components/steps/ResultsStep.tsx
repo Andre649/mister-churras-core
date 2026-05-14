@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
@@ -31,6 +31,12 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
   const [availableGuests, setAvailableGuests] = useState<Guest[]>([]);
   const [selectedGuests, setSelectedGuests] = useState<string[]>([]);
   const [bulkLoading, setBulkLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      fetchAvailableGuests();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (isGuestSelectorOpen && user) {
@@ -129,27 +135,27 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
 
   const meatItems: { label: string, value: string }[] = [];
   if (result.meats.bovino > 0) meatItems.push({ label: 'Bovino', value: `${result.meats.bovino} kg` });
-  if (result.meats.suino > 0) meatItems.push({ label: 'Su├¡no', value: `${result.meats.suino} kg` });
+  if (result.meats.suino > 0) meatItems.push({ label: 'Suíno', value: `${result.meats.suino} kg` });
   if (result.meats.frango > 0) meatItems.push({ label: 'Frango', value: `${result.meats.frango} kg` });
-  if (result.meats.linguica > 0) meatItems.push({ label: 'Lingui├ºa', value: `${result.meats.linguica} kg` });
+  if (result.meats.linguica > 0) meatItems.push({ label: 'Linguiça', value: `${result.meats.linguica} kg` });
   
   if (meatItems.length > 0) {
-    meatItems.push({ label: 'TOTAL DE PROVIS├òES', value: `${result.meats.total} kg` });
+    meatItems.push({ label: 'TOTAL DE CARNES', value: `${result.meats.total} kg` });
   }
 
   const sideItems: { label: string, value: string }[] = [];
-  if (result.sides.paoDeAlho > 0) sideItems.push({ label: 'P├úo de Alho', value: `${result.sides.paoDeAlho} un` });
+  if (result.sides.paoDeAlho > 0) sideItems.push({ label: 'Pão de Alho', value: `${result.sides.paoDeAlho} un` });
   if (result.sides.queijoCoalho > 0) sideItems.push({ label: 'Queijo Coalho', value: `${result.sides.queijoCoalho} un` });
   if (result.sides.farofa > 0) sideItems.push({ label: 'Farofa na Brasa', value: `${result.sides.farofa} kg` });
   if (result.sides.vinagrete > 0) sideItems.push({ label: 'Vinagrete da Parrilha', value: `${result.sides.vinagrete} kg` });
 
   const drinkItems = [
     { label: 'Cerveja (Latas)', value: `${result.drinks.beer} un` },
-    { label: 'Hidrata├º├úo (Refris/├ügua)', value: `${result.drinks.sodaWater} L` },
+    { label: 'Hidratação (Refris/Água)', value: `${result.drinks.sodaWater} L` },
   ];
 
   const supplyItems = [
-    { label: 'Carv├úo Vegetal', value: `${result.supplies.coal} kg` },
+    { label: 'Carvão Vegetal', value: `${result.supplies.coal} kg` },
     { label: 'Sal da Terra', value: `${result.supplies.salt} kg` },
   ];
 
@@ -168,7 +174,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
     }
     
     if (sideItems.length > 0) {
-      message += '*­ƒÑù GUARNI├ç├òES DA CONFRARIA*\n';
+      message += '*🥗 GUARNIÇÕES DA CONFRARIA*\n';
       sideItems.forEach(item => {
         message += `- ${item.label}: ${item.value}\n`;
       });
@@ -176,7 +182,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
     }
     
     if (drinkItems.length > 0) {
-      message += '*­ƒì║ SUPRIMENTOS L├ìQUIDOS*\n';
+      message += '*🍺 SUPRIMENTOS LÍQUIDOS*\n';
       drinkItems.forEach(item => {
         message += `- ${item.label}: ${item.value}\n`;
       });
@@ -225,13 +231,13 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
           <ArrowLeft size={24} />
         </button>
         <h2 className="text-2xl font-serif font-bold text-prensa uppercase tracking-widest">
-          Selar o Pedido
+          Resumo da Brasa
         </h2>
       </div>
 
       <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
         <CategorySection title="Carnes" icon={<Flame size={20} className="text-sangue-boi" />} items={meatItems} />
-        <CategorySection title="Guarni├º├Áes" icon={<Wheat size={20} className="text-sangue-boi" />} items={sideItems} />
+        <CategorySection title="Guarnições" icon={<Wheat size={20} className="text-sangue-boi" />} items={sideItems} />
         <CategorySection title="Bebidas" icon={<Droplets size={20} className="text-sangue-boi" />} items={drinkItems} />
         <CategorySection title="Suprimentos" icon={<Package size={20} className="text-sangue-boi" />} items={supplyItems} />
       </div>
@@ -250,16 +256,24 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
             )}
           </Button>
           <Button variant="primary" onClick={handleSendToWhatsApp}>
-            <Flame className="mr-2" size={18} /> Provis├Áes
+            <Flame className="mr-2" size={18} /> Lista do Açougue
           </Button>
         </div>
 
-          <Button variant="secondary" fullWidth onClick={() => {
-          if (!user) { onRequestAuth(); return; }
-          setIsGuestSelectorOpen(true);
-        }}>
-          <Users className="mr-2" size={18} /> Chamar a Galera
+          <Button 
+            variant="secondary" 
+            fullWidth 
+            disabled={availableGuests.length === 0}
+            onClick={() => {
+              if (!user) { onRequestAuth(); return; }
+              setIsGuestSelectorOpen(true);
+            }}
+          >
+          <Users className="mr-2" size={18} /> Convidar o Pessoal
         </Button>
+        {availableGuests.length === 0 && (
+          <p className="text-[10px] text-center text-sangue-boi/60 italic">Cadastre convidados no topo para liberar o convite.</p>
+        )}
 
         {isGuestSelectorOpen && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
@@ -270,7 +284,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
               </div>
               <div className="max-h-[40vh] overflow-y-auto mb-6 pr-2 custom-scrollbar font-sans">
                 {availableGuests.length === 0 ? (
-                  <p className="text-center text-madeira py-4 italic text-sm">Ningu├®m na lista ainda. Cadastre o time l├í no topo.</p>
+                  <p className="text-center text-madeira py-4 italic text-sm">Ninguém na lista ainda. Cadastre o time lá no topo.</p>
                 ) : (
                   <ul className="space-y-2">
                     {availableGuests.map(guest => (
@@ -305,7 +319,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
         )}
 
         <Button variant="ghost" fullWidth onClick={onReset} className="text-madeira/50 hover:text-prensa">
-          <RefreshCw className="mr-2" size={18} /> Outra Rodada
+          <RefreshCw className="mr-2" size={18} /> Refazer Cálculo
         </Button>
       </div>
     </Card>
