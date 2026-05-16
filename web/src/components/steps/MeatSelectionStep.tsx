@@ -10,20 +10,33 @@ interface MeatSelectionStepProps {
   setMeats: React.Dispatch<React.SetStateAction<MenuSelection>>;
   onNext: () => void;
   onBack: () => void;
+  config: {
+    title: string;
+    options: Array<{
+      id: string;
+      label: string;
+      description: string;
+      category: string;
+    }>;
+  };
 }
 
-export function MeatSelectionStep({ meats, setMeats, onNext, onBack }: MeatSelectionStepProps) {
-  const toggleMeat = (key: keyof MenuSelection) => {
-    setMeats(prev => ({ ...prev, [key]: !prev[key] }));
+export function MeatSelectionStep({ meats, setMeats, onNext, onBack, config }: MeatSelectionStepProps) {
+  const toggleMeat = (key: string) => {
+    setMeats(prev => ({ ...prev, [key]: !prev[prev.hasOwnProperty(key) ? key : ''] }));
+    // Note: Since MenuSelection might have fixed keys in TS, we use a more robust way if it's dynamic
+    setMeats(prev => ({ ...prev, [key]: !prev[key as keyof MenuSelection] }));
   };
 
   const hasSelection = Object.values(meats).some(Boolean);
 
-  const MeatOption = ({ label, type, description }: { label: string, type: keyof MenuSelection, description: string }) => {
-    const isSelected = meats[type];
+  const categories = Array.from(new Set(config.options.map(o => o.category)));
+
+  const MeatOption = ({ label, id, description }: { label: string, id: string, description: string }) => {
+    const isSelected = meats[id as keyof MenuSelection];
     return (
       <button
-        onClick={() => toggleMeat(type)}
+        onClick={() => toggleMeat(id)}
         className={cn(
           "w-full text-left p-4 rounded-xl border-2 transition-all duration-300 flex items-center justify-between",
           isSelected 
@@ -53,19 +66,27 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack }: MeatSelec
         <button onClick={onBack} className="text-zinc-400 hover:text-white transition-colors">
           <ArrowLeft size={24} />
         </button>
-        <h2 className="text-2xl font-serif font-bold text-brasa-500">O que vai pra grelha?</h2>
+        <h2 className="text-2xl font-serif font-bold text-brasa-500">{config.title}</h2>
       </div>
 
       <div className="space-y-3 mb-8">
-        <MeatOption type="bovino" label="Bovino" description="Picanha, Fraldinha, Ancho, Chorizo" />
-        <MeatOption type="suino" label="Suíno" description="Panceta, Costelinha, Picanha Suína" />
-        <MeatOption type="frango" label="Frango" description="Coraçãozinho, Tulipa, Sobrecoxa desossada" />
-        <MeatOption type="linguica" label="Linguiça" description="Toscana, Apimentada, Cuiabana" />
-        <div className="pt-4 pb-2">
-          <h3 className="text-zinc-400 font-serif font-bold text-lg">Guarnições da Casa</h3>
-        </div>
-        <MeatOption type="paoDeAlho" label="Pão de Alho" description="O clássico intocável (2 por guerreiro)" />
-        <MeatOption type="queijoCoalho" label="Queijo Coalho" description="Dourado e derretido (1 por pessoa)" />
+        {categories.map(category => (
+          <React.Fragment key={category}>
+            <div className="pt-4 pb-2">
+              <h3 className="text-zinc-400 font-serif font-bold text-lg">{category}</h3>
+            </div>
+            {config.options
+              .filter(o => o.category === category)
+              .map(option => (
+                <MeatOption 
+                  key={option.id}
+                  id={option.id}
+                  label={option.label}
+                  description={option.description}
+                />
+              ))}
+          </React.Fragment>
+        ))}
       </div>
 
       <Button 

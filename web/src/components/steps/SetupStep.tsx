@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Counter } from '../ui/Counter';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
@@ -11,9 +11,18 @@ interface SetupStepProps {
   durationHours: number;
   setDurationHours: (val: number) => void;
   onNext: () => void;
+  config: {
+    title: string;
+    subtitle: string;
+    limits: {
+      minDuration: number;
+      maxDuration: number;
+      defaultDuration: number;
+    };
+  };
 }
 
-export function SetupStep({ guests, setGuests, durationHours, setDurationHours, onNext }: SetupStepProps) {
+export function SetupStep({ guests, setGuests, durationHours, setDurationHours, onNext, config }: SetupStepProps) {
   const updateGuest = (key: keyof Guests, value: number) => {
     setGuests(prev => ({ ...prev, [key]: value }));
   };
@@ -22,7 +31,7 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
   const totalGuests = totalAdults + guests.kids;
   const canProceed = totalGuests > 0 && durationHours > 0;
 
-  // Garantir que os bebedores n├úo ultrapassem o total de adultos
+  // Business Rule: Drinkers cannot exceed total adults
   React.useEffect(() => {
     if (guests.drinkers > totalAdults) {
       setGuests(prev => ({ ...prev, drinkers: totalAdults }));
@@ -33,8 +42,8 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center mb-8">
         <p className="text-sangue-boi text-[10px] font-serif font-bold uppercase tracking-[0.3em] mb-2">Chronicles of Fire</p>
-        <h2 className="text-3xl font-serif font-bold text-prensa mb-2 uppercase tracking-wide">Tamanho do Time</h2>
-        <p className="text-madeira/70 font-sans italic">Quem vai dominar a grelha hoje?</p>
+        <h2 className="text-3xl font-serif font-bold text-prensa mb-2 uppercase tracking-wide">{config.title}</h2>
+        <p className="text-madeira/70 font-sans italic">{config.subtitle}</p>
       </div>
 
       <div className="space-y-4 mb-8">
@@ -75,12 +84,12 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
             label="Tempo de Brasa (Horas)" 
             value={durationHours} 
             onChange={setDurationHours} 
-            min={1}
-            max={24}
+            min={config.limits.minDuration}
+            max={config.limits.maxDuration}
             icon={<Clock size={24} className="text-madeira" />}
           />
           <p className="text-[10px] text-center text-madeira/50 mt-2 font-sans italic">
-            Recomendamos no m├¡nimo 4 horas para uma boa brasa.
+            Recomendamos no m├¡nimo {config.limits.defaultDuration} horas para uma boa brasa.
           </p>
         </div>
       </div>

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SetupStep } from './components/steps/SetupStep';
 import { MeatSelectionStep } from './components/steps/MeatSelectionStep';
 import { ResultsStep } from './components/steps/ResultsStep';
-import { calculateChurras, type Guests, type MenuSelection, type CalculationResult } from './utils/calculator';
+import { calculateChurras, fetchAppConfig, type Guests, type MenuSelection, type CalculationResult, type AppConfig } from './utils/calculator';
 import { Flame, LogIn, LogOut, Users } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
@@ -16,9 +16,25 @@ function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isGuestManagerOpen, setIsGuestManagerOpen] = useState(false);
-  const [isButcherPortalOpen, setIsButcherPortalOpen] = useState(window.location.search.includes('portal=butcher'));
   const { user, signOut } = useAuth();
   
+  // State for Dynamic Config
+  const [config, setConfig] = useState<AppConfig | null>(null);
+  const [isLoadingConfig, setIsLoadingConfig] = useState(true);
+
+  useEffect(() => {
+    async function loadConfig() {
+      try {
+        const data = await fetchAppConfig();
+        setConfig(data);
+      } catch (error) {
+        console.error('Erro ao carregar config:', error);
+      } finally {
+        setIsLoadingConfig(false);
+      }
+    }
+    loadConfig();
+  }, []);
   // State for Setup
   const [guests, setGuests] = useState<Guests>({ men: 0, women: 0, kids: 0, drinkers: 0 });
   const [durationHours, setDurationHours] = useState<number>(4);
@@ -93,34 +109,45 @@ function AppContent() {
 
       {/* Main Content Area */}
       <main className="flex-1 flex items-center justify-center w-full relative z-10 py-8">
-        {currentStep === 'setup' && (
-          <SetupStep 
-            guests={guests} 
-            setGuests={setGuests} 
-            durationHours={durationHours} 
-            setDurationHours={setDurationHours} 
-            onNext={() => setCurrentStep('meats')} 
-          />
-        )}
-        
-        {currentStep === 'meats' && (
-          <MeatSelectionStep 
-            meats={meats} 
-            setMeats={setMeats} 
-            onBack={() => setCurrentStep('setup')}
-            onNext={handleGenerateList} 
-          />
-        )}
-        
-        {currentStep === 'results' && (
-          <ResultsStep 
-            result={result}
-            durationHours={durationHours}
-            guests={guests}
-            onBack={() => setCurrentStep('meats')}
-            onReset={handleReset}
-            onRequestAuth={() => setIsAuthModalOpen(true)}
-          />
+        {isLoadingConfig ? (
+          <div className="text-center animate-pulse">
+            <Flame className="w-12 h-12 text-sangue-boi mx-auto mb-4 animate-bounce" />
+            <p className="font-serif text-madeira uppercase tracking-[0.2em]">Preparando a Brasa...</p>
+          </div>
+        ) : config && (
+          <>
+            {currentStep === 'setup' && (
+              <SetupStep 
+                guests={guests} 
+                setGuests={setGuests} 
+                durationHours={durationHours} 
+                setDurationHours={setDurationHours} 
+                onNext={() => setCurrentStep('meats')} 
+                config={config.steps.setup}
+              />
+            )}
+            
+            {currentStep === 'meats' && (
+              <MeatSelectionStep 
+                meats={meats} 
+                setMeats={setMeats} 
+                onBack={() => setCurrentStep('setup')}
+                onNext={handleGenerateList} 
+                config={config.steps.meats}
+              />
+            )}
+            
+            {currentStep === 'results' && (
+              <ResultsStep 
+                result={result}
+                durationHours={durationHours}
+                guests={guests}
+                onBack={() => setCurrentStep('meats')}
+                onReset={handleReset}
+                onRequestAuth={() => setIsAuthModalOpen(true)}
+              />
+            )}
+          </>
         )}
       </main>
 
