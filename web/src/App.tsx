@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { SetupStep } from './components/steps/SetupStep';
 import { MeatSelectionStep } from './components/steps/MeatSelectionStep';
 import { ResultsStep } from './components/steps/ResultsStep';
@@ -36,10 +36,15 @@ function AppContent() {
   // State for Results
   const [result, setResult] = useState<CalculationResult | null>(null);
 
-  const handleGenerateList = () => {
-    const calcResult = calculateChurras(guests, durationHours, meats);
-    setResult(calcResult);
-    setCurrentStep('results');
+  const handleGenerateList = async () => {
+    try {
+      const calcResult = await calculateChurras(guests, durationHours, meats);
+      setResult(calcResult);
+      setCurrentStep('results');
+    } catch (error) {
+      console.error('Falha no cálculo:', error);
+      // Aqui poderíamos mostrar um toast de erro se tivéssemos um componente de toast
+    }
   };
 
   const handleReset = () => {
