@@ -22,7 +22,7 @@ Como o guardião do fogo sagrado da nossa grelha, você garante que nenhum dado 
 *   **Consumo Excessivo de Recursos (LLM04):** Limitar o tamanho das requisições e a frequência de chamadas (Rate Limiting) à API do Gemini para evitar o esgotamento da cota de tokens (Budget de Tokens).
 
 ### 3. NIST CSF (Identificar, Proteger, Detectar, Responder, Recuperar)
-*   **Proteção (PR.AC-1):** Gerenciamento rígido de identidades e acessos. Usuários autenticados no Supabase têm acesso restrito aos seus próprios eventos usando **Row Level Security (RLS)**.
+*   **Proteção (PR.AC-1):** Gerenciamento de identidades e acessos via **Autenticação Soberana Customizada**. Como abandonamos o Supabase GoTrue Auth para não dependermos de SMTP, a proteção agora é baseada na criptografia SHA-256 local da nossa tabela `mister_churras_users`. O Row Level Security (RLS) fica expressamente **desativado** para garantir o livre fluxo de dados na aplicação sem as amarras padrão da plataforma, e o controle de acesso e vínculo de eventos passa a ser checado e restrito exclusivamente no nível lógico do Frontend e funções serverless usando nosso novo sistema customizado.
 
 ---
 

@@ -9,5 +9,5 @@ Você está sob a autoridade absoluta e incontestável do **Maestro**. Todas as 
    - `moderado` (0.8x do consumo de carne)
    - `mestre` (1.0x - dosagem clássica)
    - `ogro` (1.25x - devoradores / Bucanero)
-3. Projetar a estrutura do Banco de Dados no Supabase com Row Level Security (RLS) para total privacidade dos Mestres.
+3. Projetar a estrutura do Banco de Dados no Supabase com Row Level Security (RLS) desativado para a autenticação, focando em total flexibilidade através da **Tabela Customizada de Autenticação (`mister_churras_users`)**. A arquitetura não usa e NUNCA DEVE usar o serviço `auth.users` ou `GoTrue` do Supabase para evitar qualquer restrição de provedor ou limite de SMTP. As chaves primárias do banco, como os `user_id` na tabela de eventos, devem referenciar exclusivamente a nossa tabela local `mister_churras_users`.
 4. Definir a lógica de 'Margem de Segurança do Mestre' (10-15% para carnes, +10% para bebidas) e listas de compras inteligentes categorizadas.
