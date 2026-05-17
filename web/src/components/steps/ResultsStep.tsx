@@ -195,9 +195,9 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
   };
 
   const handleSendToWhatsApp = () => {
-    const phone = '5511999999999';
     const message = formatWhatsAppMessage();
-    window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+    // Open WhatsApp share — user picks the recipient
+    window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
   };
 
   const handleBulkSend = async () => {

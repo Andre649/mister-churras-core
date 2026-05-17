@@ -38,9 +38,12 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       if (data?.error) throw new Error(data.error);
       
       setStep('otp');
-      // Adicionando (DEV) para facilitar o teste local caso a Evolution não esteja ligada
-      const extraText = data?.dev_otp ? ` (DEV: ${data.dev_otp})` : '';
-      setMessage({ type: 'success', text: 'Código enviado via WhatsApp!' + extraText });
+      if (data?.dev_otp) {
+        // Gateway offline fallback: show code on screen
+        setMessage({ type: 'success', text: `Gateway offline. Use este código: ${data.dev_otp}` });
+      } else {
+        setMessage({ type: 'success', text: 'Código enviado via WhatsApp!' });
+      }
     } catch (error: any) {
       const errorMsg = error.message?.includes('non-2xx') 
         ? 'Erro ao conectar com o servidor. Tente novamente.' 

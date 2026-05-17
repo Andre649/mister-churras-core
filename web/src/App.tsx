@@ -158,7 +158,7 @@ function AppContent() {
       {isButcherPortalOpen && <ButcherPortal onClose={() => setIsButcherPortalOpen(false)} />}
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       {/* <GuestManager isOpen={isGuestManagerOpen} onClose={() => setIsGuestManagerOpen(false)} /> */}
-      <SeloBucanero onClick={handleReset} />
+      {currentStep !== 'setup' && <SeloBucanero onClick={handleReset} />}
     </div>
   );
 }

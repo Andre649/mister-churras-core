@@ -34,28 +34,40 @@ serve(async (req) => {
 
     if (dbError) throw dbError
 
-    // Send via Custom Mister Gateway
-    const gatewayUrl = Deno.env.get('GATEWAY_URL') || 'http://localhost:3333'
+    // Try to send via Custom Mister Gateway
+    const gatewayUrl = Deno.env.get('GATEWAY_URL')
     const gatewayKey = Deno.env.get('GATEWAY_API_KEY') || 'mister-churras-secret-2024'
 
-    const message = `🔥 *Mister Churras* 🔥\n\nSeu código de acesso à Caderneta do Mestre é: *${otp}*\n\n(Válido por 5 minutos)`
+    if (gatewayUrl) {
+      // Gateway is configured — attempt to send the message
+      try {
+        const message = `🔥 *Mister Churras* 🔥\n\nSeu código de acesso à Caderneta do Mestre é: *${otp}*\n\n(Válido por 5 minutos)`
+        await fetch(`${gatewayUrl}/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': gatewayKey
+          },
+          body: JSON.stringify({ number: phone, text: message })
+        })
+        // Message sent successfully — don't return OTP
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 200,
+        })
+      } catch (_gatewayErr) {
+        // Gateway is configured but failed — fall through to dev_otp fallback
+        console.warn('Gateway configured but unreachable, falling back to dev_otp')
+      }
+    }
 
-    const response = await fetch(`${gatewayUrl}/send`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': gatewayKey
-      },
-      body: JSON.stringify({
-        number: phone,
-        text: message
-      })
-    })
-
-    return new Response(JSON.stringify({ success: true }), {
+    // FALLBACK MODE: Gateway not configured or failed.
+    // Return the OTP in the response so user can enter it manually.
+    return new Response(JSON.stringify({ success: true, dev_otp: otp, fallback: true }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
+
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -63,3 +75,4 @@ serve(async (req) => {
     })
   }
 })
+
