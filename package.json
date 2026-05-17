@@ -1,0 +1,13 @@
+{
+  "name": "mister-churras-core-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd web && npm install && npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vercel/node": "^2.15.8",
+    "typescript": "^5.6.2"
+  }
+}
