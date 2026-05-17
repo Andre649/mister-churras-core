@@ -79,7 +79,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
               A Confraria convoca os <span className="text-ouro-velho">Mestres do Corte</span>
             </h2>
             
-            <p className="text-xl italic font-sans opacity-90 border-l-4 border-sangue-boi pl-6 leading-relaxed">
+            <p className="text-xl italic font-sans text-sangue-boi border-l-4 border-sangue-boi pl-6 leading-relaxed">
               "O ritual só atinge a perfeição nas mãos de quem conhece o ofício. Queremos o seu talento como a assinatura oficial do nosso Batalhão."
             </p>
             
