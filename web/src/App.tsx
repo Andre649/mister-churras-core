@@ -9,6 +9,7 @@ import { AuthModal } from './components/auth/AuthModal';
 // import { GuestManager } from './components/auth/GuestManager';
 import { SeloBucanero } from './components/ui/SeloBucanero';
 import { ButcherPortal } from './components/marketing/ButcherPortal';
+import { AdminPortal } from './components/admin/AdminPortal';
 
 type Step = 'setup' | 'meats' | 'results';
 
@@ -16,6 +17,7 @@ function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isButcherPortalOpen, setIsButcherPortalOpen] = useState(window.location.search.includes('portal=butcher'));
+  const [isAdminPortalOpen, setIsAdminPortalOpen] = useState(window.location.search.includes('portal=qg-comando'));
   const { user, signOut } = useAuth();
   
   // State for Dynamic Config
@@ -162,6 +164,7 @@ function AppContent() {
       </footer>
 
       {isButcherPortalOpen && <ButcherPortal onClose={() => setIsButcherPortalOpen(false)} />}
+      {isAdminPortalOpen && <AdminPortal />}
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       {/* <GuestManager isOpen={isGuestManagerOpen} onClose={() => setIsGuestManagerOpen(false)} /> */}
       {currentStep !== 'setup' && <SeloBucanero onClick={handleReset} />}
