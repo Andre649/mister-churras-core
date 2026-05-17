@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import makeWASocket, {
     DisconnectReason,
     useMultiFileAuthState,
@@ -38,6 +39,7 @@ async function connectToWhatsApp() {
             creds: state.creds,
             keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'silent' })),
         },
+        browser: ['Mister Churras Gateway', 'Chrome', '1.0.0'],
     });
 
     sock.ev.on('connection.update', async (update: any) => {
@@ -169,10 +171,59 @@ app.get('/qr', async (_req, res) => {
     <li>Aponte a câmera para este QR Code</li>
   </ol>
   <small>QR Code expira em ~60s. Página atualiza automaticamente.</small>
+  <br/><br/>
+  <p><a href="/reset" style="color: #e67e22; text-decoration: none; border: 1px dashed #e67e22; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold;">🔄 Problemas ao vincular? Clique aqui para Resetar a Sessão</a></p>
 </body>
 </html>`);
     } catch (_err) {
         return res.status(500).send('Erro ao gerar QR code. Verifique os logs.');
+    }
+});
+
+/** Reset session and recreate WhatsApp connection */
+app.get('/reset', async (_req, res) => {
+    try {
+        console.log('🔄 Resetting WhatsApp session...');
+        
+        // 1. Close current socket connection if it exists
+        if (sock) {
+            try {
+                sock.end(undefined);
+            } catch (err) {
+                console.warn('Error ending socket:', err);
+            }
+        }
+        
+        isConnected = false;
+        lastQR = null;
+        sock = null;
+        
+        // 2. Wait a moment for files to unlock
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // 3. Delete credentials directory
+        const sessionPath = path.join(process.cwd(), 'sessions/mister-churras');
+        if (fs.existsSync(sessionPath)) {
+            fs.rmSync(sessionPath, { recursive: true, force: true });
+            console.log('🗑️ Session directory deleted.');
+        }
+        
+        // 4. Reconnect fresh
+        connectToWhatsApp();
+        
+        // 5. Redirect back to /qr to scan new code
+        res.send(`<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta http-equiv="refresh" content="3;url=/qr"><title>Reiniciando...</title>
+<style>body{font-family:serif;background:#1a0e08;color:#f4ecd8;text-align:center;padding:3rem}</style>
+</head>
+<body><h1>🔄 Sessão Reiniciada com Sucesso!</h1>
+<p>Apagamos os dados antigos. Redirecionando para o novo QR Code em 3 segundos...</p>
+<p><a href="/qr" style="color:#d4a017">Clique aqui se não for redirecionado automaticamente</a></p>
+</body></html>`);
+    } catch (err: any) {
+        console.error('Failed to reset session:', err);
+        res.status(500).send(`Erro ao resetar sessão: ${err.message}`);
     }
 });
 
