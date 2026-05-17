@@ -43,7 +43,7 @@ serve(async (req: Request) => {
       // Gateway is configured — attempt to send the message
       try {
         const message = `🔥 *Mister Churras* 🔥\n\nSeu código de acesso à Caderneta do Mestre é: *${otp}*\n\n(Válido por 5 minutos)`
-        await fetch(`${gatewayUrl}/send`, {
+        const res = await fetch(`${gatewayUrl}/send`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -51,20 +51,25 @@ serve(async (req: Request) => {
           },
           body: JSON.stringify({ number: phone, text: message })
         })
+
+        if (!res.ok) {
+          throw new Error('Gateway response was not ok')
+        }
+
         // Message sent successfully — don't return OTP
         return new Response(JSON.stringify({ success: true }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 200,
         })
       } catch (_gatewayErr) {
-        // Gateway is configured but failed — fall through to dev_otp fallback
-        console.warn('Gateway configured but unreachable, falling back to dev_otp')
+        // Gateway is configured but failed — fall through to offline response
+        console.warn('Gateway configured but unreachable')
       }
     }
 
-    // FALLBACK MODE: Gateway not configured or failed.
-    // Return the OTP in the response so user can enter it manually.
-    return new Response(JSON.stringify({ success: true, dev_otp: otp, fallback: true }), {
+    // OFFLINE MODE: Gateway not configured or failed.
+    // Return gateway_offline so the frontend can prevent sign up/login
+    return new Response(JSON.stringify({ success: false, error: 'gateway_offline' }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })

@@ -36,19 +36,20 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       });
 
       if (error) throw error;
+      if (data?.error === 'gateway_offline') throw new Error('gateway_offline');
       if (data?.error) throw new Error(data.error);
       
       setStep('otp');
-      if (data?.dev_otp) {
-        // Gateway offline fallback: show code on screen
-        setMessage({ type: 'success', text: `Gateway offline. Use este código: ${data.dev_otp}` });
-      } else {
-        setMessage({ type: 'success', text: 'Código enviado via WhatsApp!' });
-      }
+      setMessage({ type: 'success', text: 'Código enviado via WhatsApp!' });
     } catch (error: any) {
-      const errorMsg = error.message?.includes('non-2xx') 
-        ? 'Erro ao conectar com o servidor. Tente novamente.' 
-        : error.message || 'Erro ao enviar código.';
+      let errorMsg = 'Erro ao enviar código.';
+      if (error.message === 'gateway_offline') {
+        errorMsg = 'Parece que você está sem internet, só será possível calcular o seu churrasco';
+      } else if (error.message?.includes('non-2xx')) {
+        errorMsg = 'Erro ao conectar com o servidor. Tente novamente.';
+      } else {
+        errorMsg = error.message || 'Erro ao enviar código.';
+      }
       setMessage({ type: 'error', text: errorMsg });
     } finally {
       setLoading(false);
