@@ -23,8 +23,6 @@ interface MeatSelectionStepProps {
 
 export function MeatSelectionStep({ meats, setMeats, onNext, onBack, config }: MeatSelectionStepProps) {
   const toggleMeat = (key: string) => {
-    setMeats(prev => ({ ...prev, [key]: !prev[prev.hasOwnProperty(key) ? key : ''] }));
-    // Note: Since MenuSelection might have fixed keys in TS, we use a more robust way if it's dynamic
     setMeats(prev => ({ ...prev, [key]: !prev[key as keyof MenuSelection] }));
   };
 
@@ -38,23 +36,23 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack, config }: M
       <button
         onClick={() => toggleMeat(id)}
         className={cn(
-          "w-full text-left p-4 rounded-xl border-2 transition-all duration-300 flex items-center justify-between",
+          "w-full text-left p-4 rounded-none border-b border-madeira/20 transition-all duration-300 flex items-center justify-between group",
           isSelected 
-            ? "border-brasa-500 bg-brasa-500/10 shadow-[0_0_15px_rgba(234,88,12,0.1)]" 
-            : "border-zinc-800 bg-carvao-950/50 hover:border-zinc-600"
+            ? "bg-sangue-boi/5 shadow-[inset_0_0_10px_rgba(142,43,12,0.05)]" 
+            : "hover:bg-pergaminho/50"
         )}
       >
         <div>
-          <h3 className={cn("font-bold text-lg", isSelected ? "text-brasa-500" : "text-offwhite")}>
+          <h3 className={cn("font-serif font-bold text-lg uppercase tracking-tight transition-colors", isSelected ? "text-sangue-boi" : "text-prensa")}>
             {label}
           </h3>
-          <p className="text-zinc-400 text-sm mt-1">{description}</p>
+          <p className="text-madeira/60 text-xs italic font-sans">{description}</p>
         </div>
         <div className={cn(
-          "w-6 h-6 rounded-full flex items-center justify-center transition-colors",
-          isSelected ? "bg-brasa-500 text-white" : "bg-zinc-800 text-transparent"
+          "w-6 h-6 border-prensa flex items-center justify-center transition-all",
+          isSelected ? "bg-sangue-boi border-sangue-boi text-papel" : "border-madeira/30 text-transparent group-hover:border-madeira"
         )}>
-          <Check size={14} strokeWidth={3} />
+          <Check size={14} strokeWidth={4} />
         </div>
       </button>
     );
@@ -62,18 +60,18 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack, config }: M
 
   return (
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-right-8 duration-500">
-      <div className="flex items-center gap-4 mb-6">
-        <button onClick={onBack} className="text-zinc-400 hover:text-white transition-colors">
+      <div className="flex items-center gap-4 mb-6 border-b-2 border-prensa pb-4">
+        <button onClick={onBack} className="text-madeira hover:text-sangue-boi transition-colors">
           <ArrowLeft size={24} />
         </button>
-        <h2 className="text-2xl font-serif font-bold text-brasa-500">{config.title}</h2>
+        <h2 className="text-2xl font-serif font-bold text-prensa uppercase tracking-tighter ink-bleed">{config.title}</h2>
       </div>
 
-      <div className="space-y-3 mb-8">
+      <div className="space-y-1 mb-8 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
         {categories.map(category => (
           <React.Fragment key={category}>
-            <div className="pt-4 pb-2">
-              <h3 className="text-zinc-400 font-serif font-bold text-lg">{category}</h3>
+            <div className="pt-6 pb-2 first:pt-0">
+              <h3 className="text-madeira font-serif font-bold text-xs uppercase tracking-[0.2em] border-b border-madeira/10 pb-1">{category}</h3>
             </div>
             {config.options
               .filter(o => o.category === category)
@@ -93,9 +91,10 @@ export function MeatSelectionStep({ meats, setMeats, onNext, onBack, config }: M
         fullWidth 
         onClick={onNext} 
         disabled={!hasSelection}
-        className="text-lg"
+        variant="primary"
+        className="mt-4"
       >
-        Gerar Lista do Mestre <Flame className="ml-2" size={20} />
+        SELAR O DESTINO <Flame className="ml-2" size={20} />
       </Button>
     </Card>
   );

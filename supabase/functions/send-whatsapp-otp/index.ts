@@ -34,43 +34,23 @@ serve(async (req) => {
 
     if (dbError) throw dbError
 
-    // Send via Evolution API
-    const evoUrl = Deno.env.get('EVOLUTION_API_URL')
-    const evoInstance = Deno.env.get('EVOLUTION_API_INSTANCE')
-    const evoApiKey = Deno.env.get('EVOLUTION_API_KEY')
-
-    if (!evoUrl || !evoInstance || !evoApiKey) {
-      console.warn("Evolution API is not fully configured, returning OTP for development: ", otp)
-      return new Response(JSON.stringify({ success: true, dev_otp: otp }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      })
-    }
+    // Send via Custom Mister Gateway
+    const gatewayUrl = Deno.env.get('GATEWAY_URL') || 'http://localhost:3333'
+    const gatewayKey = Deno.env.get('GATEWAY_API_KEY') || 'mister-churras-secret-2024'
 
     const message = `🔥 *Mister Churras* 🔥\n\nSeu código de acesso à Caderneta do Mestre é: *${otp}*\n\n(Válido por 5 minutos)`
 
-    const response = await fetch(`${evoUrl}/message/sendText/${evoInstance}`, {
+    const response = await fetch(`${gatewayUrl}/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': evoApiKey
+        'x-api-key': gatewayKey
       },
       body: JSON.stringify({
         number: phone,
-        options: {
-          delay: 1200,
-          presence: "composing",
-        },
-        textMessage: {
-          text: message
-        }
+        text: message
       })
     })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`Failed to send WhatsApp message: ${errorText}`)
-    }
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

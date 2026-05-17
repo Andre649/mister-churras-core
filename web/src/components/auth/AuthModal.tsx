@@ -85,30 +85,30 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
       <Card className="w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-zinc-400 hover:text-[#D35400] transition-colors"
+          className="absolute top-4 right-4 text-madeira hover:text-sangue-boi transition-colors"
         >
           <X size={24} />
         </button>
         
-        <div className="text-center mb-6">
-          <div className="w-16 h-16 rounded-full bg-[#1A1A1A] border border-neutral-700 flex items-center justify-center mx-auto mb-4 text-[#D35400] shadow-[inset_0_0_15px_rgba(211,84,0,0.2)]">
+        <div className="text-center mb-6 border-b-2 border-prensa pb-4">
+          <div className="w-16 h-16 rounded-none bg-pergaminho border-prensa flex items-center justify-center mx-auto mb-4 text-sangue-boi shadow-sm ink-stamp">
             <BookOpen size={32} />
           </div>
-          <h2 className="text-3xl font-serif font-bold text-[#F4F4F4]">Caderneta do Mestre</h2>
-          <p className="text-[#BDC3C7] mt-2">Identifique-se via WhatsApp para acessar seus rituais.</p>
+          <h2 className="text-3xl font-serif font-bold text-prensa uppercase tracking-tighter ink-bleed">Caderneta do Mestre</h2>
+          <p className="text-madeira/70 mt-2 font-sans italic text-sm">Identifique-se via WhatsApp para assinar seus rituais.</p>
         </div>
 
         {step === 'phone' ? (
           <form onSubmit={handleSendCode} className="space-y-4">
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-[#BDC3C7] mb-1">WhatsApp (DDD + Número)</label>
+              <label htmlFor="phone" className="block text-xs font-serif font-bold text-madeira uppercase tracking-widest mb-1">WhatsApp (DDD + Número)</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-neutral-500" />
+                  <Phone className="h-5 w-5 text-madeira/40" />
                 </div>
                 <input
                   type="tel"
@@ -117,13 +117,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   onChange={(e) => setPhone(e.target.value)}
                   required
                   placeholder="11999999999"
-                  className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border-2 border-neutral-700 rounded-lg text-[#F4F4F4] placeholder-neutral-600 focus:outline-none focus:border-[#D35400] focus:ring-1 focus:ring-[#D35400] transition-all shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]"
+                  className="w-full pl-10 pr-4 py-3 bg-pergaminho/50 border-2 border-madeira/20 rounded-none text-prensa placeholder-madeira/30 focus:outline-none focus:border-sangue-boi transition-all"
                 />
               </div>
             </div>
 
             {message && (
-              <div className={`p-3 rounded-lg text-sm border ${message.type === 'success' ? 'bg-green-500/10 border-green-500/30 text-green-400' : 'bg-[#C0392B]/10 border-[#C0392B]/30 text-[#C0392B]'}`}>
+              <div className={`p-3 rounded-none text-xs border text-center font-sans italic ${message.type === 'success' ? 'bg-green-500/10 border-green-500/30 text-green-700' : 'bg-sangue-boi/10 border-sangue-boi/30 text-sangue-boi'}`}>
                 {message.text}
               </div>
             )}
@@ -135,16 +135,16 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               variant="primary"
               className="mt-6"
             >
-              {loading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'Receber Código'}
+              {loading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'RECEBER CÓDIGO'}
             </Button>
           </form>
         ) : (
           <form onSubmit={handleVerifyCode} className="space-y-4">
              <div>
-              <label htmlFor="otp" className="block text-sm font-medium text-[#BDC3C7] mb-1">Código de 6 dígitos</label>
+              <label htmlFor="otp" className="block text-xs font-serif font-bold text-madeira uppercase tracking-widest mb-1">Código de 6 dígitos</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <KeyRound className="h-5 w-5 text-neutral-500" />
+                  <KeyRound className="h-5 w-5 text-madeira/40" />
                 </div>
                 <input
                   type="text"
@@ -154,13 +154,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   required
                   placeholder="123456"
                   maxLength={6}
-                  className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border-2 border-neutral-700 rounded-lg text-[#F4F4F4] placeholder-neutral-600 focus:outline-none focus:border-[#D35400] focus:ring-1 focus:ring-[#D35400] transition-all text-center tracking-widest font-mono shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]"
+                  className="w-full pl-10 pr-4 py-3 bg-pergaminho/50 border-2 border-madeira/20 rounded-none text-prensa placeholder-madeira/30 focus:outline-none focus:border-sangue-boi transition-all text-center tracking-[0.5em] font-mono font-bold text-xl"
                 />
               </div>
             </div>
 
             {message && (
-              <div className={`p-3 rounded-lg text-sm border ${message.type === 'success' ? 'bg-green-500/10 border-green-500/30 text-green-400' : 'bg-[#C0392B]/10 border-[#C0392B]/30 text-[#C0392B]'}`}>
+              <div className={`p-3 rounded-none text-xs border text-center font-sans italic ${message.type === 'success' ? 'bg-green-500/10 border-green-500/30 text-green-700' : 'bg-sangue-boi/10 border-sangue-boi/30 text-sangue-boi'}`}>
                 {message.text}
               </div>
             )}
@@ -172,14 +172,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               variant="primary"
               className="mt-6"
             >
-              {loading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'Assinar Caderneta'}
+              {loading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'ASSINAR CADERNETA'}
             </Button>
             <button 
               type="button" 
               onClick={() => { setStep('phone'); setMessage(null); setOtp(''); }}
-              className="w-full mt-4 text-sm text-[#BDC3C7] hover:text-[#F4F4F4] transition-colors"
+              className="w-full mt-4 text-xs text-madeira/60 hover:text-sangue-boi transition-colors uppercase tracking-widest font-serif"
             >
-              Voltar e corrigir número
+              Corrigir Número
             </button>
           </form>
         )}

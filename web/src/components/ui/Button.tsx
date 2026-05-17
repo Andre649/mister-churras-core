@@ -21,11 +21,11 @@ export function Button({
   return (
     <button
       className={cn(
-        "px-6 py-4 rounded-none border-y-2 border-zinc-900 font-serif font-bold text-lg uppercase tracking-wide transition-all duration-300 transform active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2",
+        "px-6 py-4 rounded-none font-serif font-bold text-lg uppercase tracking-widest transition-all duration-300 transform active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 ink-bleed",
         {
-          "bg-gradient-to-r from-[#8e2900] via-brasa-600 to-[#8e2900] text-offwhite pulse-brasa hover:glow-brasa-hover shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] border-x-4 border-x-zinc-900": variant === 'primary',
-          "bg-carvao-900 text-offwhite hover:bg-carvao-950 border-x-4 border-zinc-800 hover:border-zinc-700 shadow-[inset_0_0_10px_rgba(0,0,0,0.8)]": variant === 'secondary',
-          "bg-transparent border-2 border-brasa-500 text-brasa-500 hover:bg-brasa-500/10": variant === 'outline',
+          "bg-sangue-boi text-papel ink-stamp hover:scale-[1.02] active:scale-95 shadow-[4px_4px_0px_#4A3728]": variant === 'primary',
+          "bg-madeira text-papel ink-stamp hover:brightness-110": variant === 'secondary',
+          "bg-transparent border-prensa text-prensa hover:bg-prensa/5": variant === 'outline',
           "w-full": fullWidth,
         },
         className

@@ -6,12 +6,7 @@ export interface Guests {
 }
 
 export interface MenuSelection {
-  bovino: boolean;
-  suino: boolean;
-  frango: boolean;
-  linguica: boolean;
-  paoDeAlho: boolean;
-  queijoCoalho: boolean;
+  [key: string]: boolean;
 }
 
 export interface CalculationResult {

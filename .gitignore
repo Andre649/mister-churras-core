@@ -1,13 +1,51 @@
+# Node dependencies
 node_modules/
-.antigravity/
-.env
+**/node_modules/
+
+# Production builds
 dist/
+**/dist/
 build/
+**/build/
+.vercel/
+
+# Environment files and Secrets
+.env
+.env.*
+!.env.example
+*.env
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.antigravity/
+
+# Temporary / OS files
+NTUSER.DAT*
+AppData/
+OneDrive/
+
+# Build assets & logs
+*.tsbuildinfo
+web/build_error.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# WhatsApp Gateway specific exclusions
+messaging-gateway/sessions/
+messaging-gateway/qr.png
+otp_request.json
+
+# Media and binaries
 *.exe
 *.pdf
 *.docx
 *.webp
 *.url
-NTUSER.DAT*
-AppData/
-OneDrive/

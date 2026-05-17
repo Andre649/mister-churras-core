@@ -3,10 +3,10 @@ import { SetupStep } from './components/steps/SetupStep';
 import { MeatSelectionStep } from './components/steps/MeatSelectionStep';
 import { ResultsStep } from './components/steps/ResultsStep';
 import { calculateChurras, fetchAppConfig, type Guests, type MenuSelection, type CalculationResult, type AppConfig } from './utils/calculator';
-import { Flame, LogIn, LogOut, Users } from 'lucide-react';
+import { Flame, LogIn, LogOut } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
-import { GuestManager } from './components/auth/GuestManager';
+// import { GuestManager } from './components/auth/GuestManager';
 import { SeloBucanero } from './components/ui/SeloBucanero';
 import { ButcherPortal } from './components/marketing/ButcherPortal';
 
@@ -15,7 +15,7 @@ type Step = 'setup' | 'meats' | 'results';
 function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isGuestManagerOpen, setIsGuestManagerOpen] = useState(false);
+  const [isButcherPortalOpen, setIsButcherPortalOpen] = useState(window.location.search.includes('portal=butcher'));
   const { user, signOut } = useAuth();
   
   // State for Dynamic Config
@@ -88,13 +88,7 @@ function AppContent() {
         <div className="w-full md:w-auto flex justify-center md:justify-end">
           {user ? (
             <div className="flex items-center gap-4 font-sans">
-              <button 
-                onClick={() => setIsGuestManagerOpen(true)} 
-                className="hidden md:flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors"
-                title="Gerenciar Batalh├úo"
-              >
-                <Users size={20} /> <span className="text-xs font-bold uppercase tracking-widest">Time</span>
-              </button>
+
               <button onClick={signOut} className="flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors" title="Sair da Brasa">
                 <LogOut size={24} />
               </button>
@@ -163,7 +157,7 @@ function AppContent() {
 
       {isButcherPortalOpen && <ButcherPortal onClose={() => setIsButcherPortalOpen(false)} />}
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
-      <GuestManager isOpen={isGuestManagerOpen} onClose={() => setIsGuestManagerOpen(false)} />
+      {/* <GuestManager isOpen={isGuestManagerOpen} onClose={() => setIsGuestManagerOpen(false)} /> */}
       <SeloBucanero onClick={handleReset} />
     </div>
   );

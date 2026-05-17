@@ -7,20 +7,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        carvao: {
-          900: '#18181B', // zinc-900
-          950: '#09090B', // zinc-950
-        },
+        papel: '#E8E2D2',
+        pergaminho: '#DCD7C9',
+        'sangue-boi': '#8E2B0C',
+        madeira: '#4A3728',
+        prensa: '#1A1A1A',
+        cafe: '#5D4037',
+        'ouro-velho': '#B8860B',
         brasa: {
-          500: '#F97316', // orange-500
-          600: '#EA580C', // orange-600
-          700: '#C2410C', // orange-700
+          500: '#8E2B0C', // Now using Sangue Boi as default Brasa
+          600: '#4A3728',
+          700: '#1A1A1A',
         },
-        offwhite: '#F5F5F4', // stone-100
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        serif: ['Cinzel', 'Playfair Display', 'serif'],
+        mono: ['Roboto Mono', 'monospace'],
       }
     },
   },

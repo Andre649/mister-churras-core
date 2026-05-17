@@ -40,10 +40,10 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
 
   return (
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="text-center mb-8">
-        <p className="text-sangue-boi text-[10px] font-serif font-bold uppercase tracking-[0.3em] mb-2">Chronicles of Fire</p>
-        <h2 className="text-3xl font-serif font-bold text-prensa mb-2 uppercase tracking-wide">{config.title}</h2>
-        <p className="text-madeira/70 font-sans italic">{config.subtitle}</p>
+      <div className="text-center mb-8 border-b-2 border-prensa pb-4">
+        <p className="text-sangue-boi text-[10px] font-serif font-bold uppercase tracking-[0.4em] mb-2 ink-bleed">Chronicles of Fire</p>
+        <h2 className="text-3xl font-serif font-bold text-prensa mb-2 uppercase tracking-tight ink-bleed">{config.title}</h2>
+        <p className="text-madeira/70 font-sans italic text-sm">{config.subtitle}</p>
       </div>
 
       <div className="space-y-4 mb-8">
@@ -60,36 +60,36 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
           icon={<User size={24} className="text-madeira" />}
         />
         <Counter 
-          label="Pequenos (Crian├ºas)" 
+          label="Pequenos (Crianças)" 
           value={guests.kids} 
           onChange={(v) => updateGuest('kids', v)} 
           icon={<Baby size={24} className="text-madeira" />}
         />
         
-        <div className="pt-4 mt-4 border-t border-madeira/20">
+        <div className="pt-4 mt-4 border-t-2 border-madeira/20 border-dotted">
           <Counter 
-            label="Bebem Cerveja" 
+            label="Time da Cerveja" 
             value={guests.drinkers} 
             onChange={(v) => updateGuest('drinkers', v)} 
             max={totalAdults}
             icon={<Beer size={24} className="text-madeira" />}
           />
-          <p className="text-[10px] text-madeira/50 mt-2 font-sans italic">
-            M├íximo igual ao n├║mero de adultos no time.
+          <p className="text-[10px] text-madeira/50 mt-2 font-sans italic text-center uppercase tracking-widest">
+            Limite: Total de Adultos no Batalhão.
           </p>
         </div>
 
-        <div className="pt-4 mt-4 border-t border-madeira/20">
+        <div className="pt-4 mt-4 border-t-2 border-madeira/20 border-dotted">
           <Counter 
-            label="Tempo de Brasa (Horas)" 
+            label="Duração da Brasa (Horas)" 
             value={durationHours} 
             onChange={setDurationHours} 
             min={config.limits.minDuration}
             max={config.limits.maxDuration}
             icon={<Clock size={24} className="text-madeira" />}
           />
-          <p className="text-[10px] text-center text-madeira/50 mt-2 font-sans italic">
-            Recomendamos no m├¡nimo {config.limits.defaultDuration} horas para uma boa brasa.
+          <p className="text-[10px] text-center text-madeira/50 mt-2 font-sans italic uppercase tracking-widest">
+            {config.limits.defaultDuration}h é o tempo mínimo para selar o destino.
           </p>
         </div>
       </div>
@@ -98,7 +98,7 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
         fullWidth 
         onClick={onNext} 
         disabled={!canProceed}
-        className="text-lg mt-4"
+        className="mt-4"
         variant="primary"
       >
         ACENDER O FOGO <Flame className="ml-2" size={24} />

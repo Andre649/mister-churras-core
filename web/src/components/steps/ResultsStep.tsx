@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { cn } from '../../utils/cn';
+import { cn } from '../ui/Button';
 import { ArrowLeft, RefreshCw, ShoppingCart, Flame, Droplets, Package, Wheat, Loader2, X } from 'lucide-react';
 import type { CalculationResult, Guests } from '../../utils/calculator';
 import { useAuth } from '../../contexts/AuthContext';
@@ -117,15 +117,16 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
     if (items.length === 0) return null;
     
     return (
-      <div className="mb-6">
-        <h3 className="text-xl font-serif font-bold text-sangue-boi mb-3 flex items-center gap-2 border-b border-madeira/20 pb-1 uppercase tracking-tighter">
+      <div className="mb-6 break-inside-avoid">
+        <h3 className="text-lg font-serif font-bold text-sangue-boi mb-3 flex items-center gap-2 border-b-2 border-prensa pb-1 uppercase tracking-tighter ink-bleed">
           {icon} {title}
         </h3>
-        <ul className="space-y-2">
+        <ul className="space-y-1">
           {items.map((item, idx) => (
-            <li key={idx} className="flex justify-between items-center p-3 bg-pergaminho/50 border border-madeira/20">
-              <span className="text-madeira/80 font-sans italic">{item.label}</span>
-              <span className="font-bold text-prensa font-mono">{item.value}</span>
+            <li key={idx} className="flex justify-between items-baseline py-1 border-b border-madeira/10 border-dotted">
+              <span className="text-madeira font-sans text-xs uppercase tracking-wider">{item.label}</span>
+              <div className="flex-1 border-b border-madeira/5 mx-2 border-dotted" />
+              <span className="font-bold text-prensa font-mono text-sm whitespace-nowrap">{item.value}</span>
             </li>
           ))}
         </ul>
@@ -134,37 +135,37 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
   };
 
   const meatItems: { label: string, value: string }[] = [];
-  if (result.meats.bovino > 0) meatItems.push({ label: 'Bovino', value: `${result.meats.bovino} kg` });
-  if (result.meats.suino > 0) meatItems.push({ label: 'Suíno', value: `${result.meats.suino} kg` });
-  if (result.meats.frango > 0) meatItems.push({ label: 'Frango', value: `${result.meats.frango} kg` });
-  if (result.meats.linguica > 0) meatItems.push({ label: 'Linguiça', value: `${result.meats.linguica} kg` });
+  if (result.meats.bovino > 0) meatItems.push({ label: 'Cortes Bovinos', value: `${result.meats.bovino} kg` });
+  if (result.meats.suino > 0) meatItems.push({ label: 'Cortes Suínos', value: `${result.meats.suino} kg` });
+  if (result.meats.frango > 0) meatItems.push({ label: 'Cortes de Frango', value: `${result.meats.frango} kg` });
+  if (result.meats.linguica > 0) meatItems.push({ label: 'Embutidos/Ling.', value: `${result.meats.linguica} kg` });
   
   if (meatItems.length > 0) {
-    meatItems.push({ label: 'TOTAL DE CARNES', value: `${result.meats.total} kg` });
+    meatItems.push({ label: 'CARGA TOTAL', value: `${result.meats.total} kg` });
   }
 
   const sideItems: { label: string, value: string }[] = [];
   if (result.sides.paoDeAlho > 0) sideItems.push({ label: 'Pão de Alho', value: `${result.sides.paoDeAlho} un` });
   if (result.sides.queijoCoalho > 0) sideItems.push({ label: 'Queijo Coalho', value: `${result.sides.queijoCoalho} un` });
-  if (result.sides.farofa > 0) sideItems.push({ label: 'Farofa na Brasa', value: `${result.sides.farofa} kg` });
-  if (result.sides.vinagrete > 0) sideItems.push({ label: 'Vinagrete da Parrilha', value: `${result.sides.vinagrete} kg` });
+  if (result.sides.farofa > 0) sideItems.push({ label: 'Farofa da Casa', value: `${result.sides.farofa} kg` });
+  if (result.sides.vinagrete > 0) sideItems.push({ label: 'Vinagrete Especial', value: `${result.sides.vinagrete} kg` });
 
   const drinkItems = [
-    { label: 'Cerveja (Latas)', value: `${result.drinks.beer} un` },
-    { label: 'Hidratação (Refris/Água)', value: `${result.drinks.sodaWater} L` },
+    { label: 'Cerveja (Cevada)', value: `${result.drinks.beer} un` },
+    { label: 'Hidratação Geral', value: `${result.drinks.sodaWater} L` },
   ];
 
   const supplyItems = [
-    { label: 'Carvão Vegetal', value: `${result.supplies.coal} kg` },
-    { label: 'Sal da Terra', value: `${result.supplies.salt} kg` },
+    { label: 'Carvão de Carvalho', value: `${result.supplies.coal} kg` },
+    { label: 'Sal de Parrilla', value: `${result.supplies.salt} kg` },
   ];
 
   const formatWhatsAppMessage = () => {
     if (!result) return '';
     
-    let message = '*­ƒöÑ MISTER CHURRAS - NA BRASA ­ƒöÑ*\n\n';
-    message += `_O churrasco est├í pronto para come├ºar! Dura├º├úo prevista: ${durationHours} horas._\n\n`;
-    message += '*­ƒô£ LISTA DO A├çOUGUE*\n';
+    let message = '*🔥 MISTER CHURRAS - O RITUAL 🔥*\n\n';
+    message += `_O chamado da brasa foi atendido! Duração prevista: ${durationHours} horas._\n\n`;
+    message += '*📜 MANIFESTO DO AÇOUGUE*\n';
     
     if (meatItems.length > 0) {
       meatItems.forEach(item => {
@@ -174,7 +175,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
     }
     
     if (sideItems.length > 0) {
-      message += '*🥗 GUARNIÇÕES DA CONFRARIA*\n';
+      message += '*🥗 GUARNIÇÕES DO MESTRE*\n';
       sideItems.forEach(item => {
         message += `- ${item.label}: ${item.value}\n`;
       });
@@ -189,7 +190,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
       message += '\n';
     }
     
-    message += '_Churrasco calculado pelo Mister Churras - O Mestre da Brasa._';
+    message += '_Lista gerada pelo Mister Churras - A Bíblia da Brasa._';
     return encodeURIComponent(message);
   };
 
@@ -226,20 +227,20 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
 
   return (
     <Card className="w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700">
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-6 border-b-2 border-prensa pb-4">
         <button onClick={onBack} className="text-madeira hover:text-sangue-boi transition-colors">
           <ArrowLeft size={24} />
         </button>
-        <h2 className="text-2xl font-serif font-bold text-prensa uppercase tracking-widest">
-          Resumo da Brasa
+        <h2 className="text-2xl font-serif font-bold text-prensa uppercase tracking-tighter ink-bleed">
+          Manifesto da Brasa
         </h2>
       </div>
 
-      <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-        <CategorySection title="Carnes" icon={<Flame size={20} className="text-sangue-boi" />} items={meatItems} />
-        <CategorySection title="Guarnições" icon={<Wheat size={20} className="text-sangue-boi" />} items={sideItems} />
-        <CategorySection title="Bebidas" icon={<Droplets size={20} className="text-sangue-boi" />} items={drinkItems} />
-        <CategorySection title="Suprimentos" icon={<Package size={20} className="text-sangue-boi" />} items={supplyItems} />
+      <div className="max-h-[55vh] overflow-y-auto pr-2 custom-scrollbar md:columns-2 gap-6 newspaper-column">
+        <CategorySection title="Cortes" icon={<Flame size={20} className="text-sangue-boi ink-stamp" />} items={meatItems} />
+        <CategorySection title="Extras" icon={<Wheat size={20} className="text-sangue-boi ink-stamp" />} items={sideItems} />
+        <CategorySection title="Líquidos" icon={<Droplets size={20} className="text-sangue-boi ink-stamp" />} items={drinkItems} />
+        <CategorySection title="Fogo" icon={<Package size={20} className="text-sangue-boi ink-stamp" />} items={supplyItems} />
       </div>
 
       <div className="mt-8 space-y-3">
@@ -318,7 +319,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
           </div>
         )}
 
-        <Button variant="ghost" fullWidth onClick={onReset} className="text-madeira/50 hover:text-prensa">
+        <Button variant="outline" fullWidth onClick={onReset} className="text-madeira/50 hover:text-prensa border-none">
           <RefreshCw className="mr-2" size={18} /> Refazer Cálculo
         </Button>
       </div>
