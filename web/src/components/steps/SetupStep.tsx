@@ -50,19 +50,19 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
 
       <div className="space-y-4 mb-8">
         <Counter 
-          label="Churrasqueiros (Homens)" 
+          label="Homens" 
           value={guests.men} 
           onChange={(v) => updateGuest('men', v)} 
           icon={<Users size={24} className="text-madeira" />}
         />
         <Counter 
-          label="Churrasqueiras (Mulheres)" 
+          label="Mulheres" 
           value={guests.women} 
           onChange={(v) => updateGuest('women', v)} 
           icon={<User size={24} className="text-madeira" />}
         />
         <Counter 
-          label="Pequenos (Crianças)" 
+          label="Crianças" 
           value={guests.kids} 
           onChange={(v) => updateGuest('kids', v)} 
           icon={<Baby size={24} className="text-madeira" />}
