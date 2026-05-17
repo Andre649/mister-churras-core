@@ -160,51 +160,89 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
     { label: 'Sal de Parrilla', value: `${result.supplies.salt} kg` },
   ];
 
-  const formatWhatsAppMessage = () => {
+  const formatWhatsAppMessage = (isOrderToButcher = false) => {
     if (!result) return '';
     
-    let message = '*🔥 MISTER CHURRAS - O RITUAL 🔥*\n\n';
-    message += `_O chamado da brasa foi atendido! Duração prevista: ${durationHours} horas._\n\n`;
-    message += '*📜 MANIFESTO DO AÇOUGUE*\n';
+    let message = '🔥 *CHURRASCO CONSAGRADO - MISTER CHURRAS* 🔥\n';
+    message += '⚔️ _Bucanero e Netão convocam os guerreiros para a brasa!_\n\n';
+    
+    if (isOrderToButcher) {
+      message += '*🔪 NOVO PEDIDO DE EXCELÊNCIA - DIRETO AO AÇOUGUE* 🔪\n';
+      message += '_Prepare os melhores cortes, mestre açougueiro! Só peça top!_\n\n';
+    } else {
+      message += '*📜 O MANIFESTO SAGRADO DA BRASA* 📜\n\n';
+    }
+    
+    message += `⏱️ *TEMPO DE COMBATE:* ${durationHours} horas de puro fogo!\n`;
+    message += `👥 *CONVOCADOS:* ${guests.men} Homens, ${guests.women} Mulheres, ${guests.kids} Crianças\n\n`;
     
     if (meatItems.length > 0) {
+      message += '🥩 *CORTES SAGRADOS (SÓ CARNE DE PRIMEIRA!):*\n';
       meatItems.forEach(item => {
-        message += `- ${item.label.toUpperCase()}: ${item.value}\n`;
+        if (item.label !== 'CARGA TOTAL') {
+          message += `- *${item.label.toUpperCase()}*: ${item.value} 🔪\n`;
+        }
       });
-      message += '\n';
+      message += `👉 *CARGA TOTAL DE PROTEÍNA:* *${result.meats.total} kg* 🔥\n\n`;
     }
     
     if (sideItems.length > 0) {
-      message += '*🥗 GUARNIÇÕES DO MESTRE*\n';
+      message += '🥗 *GUARNIÇÕES DE RESPONSA (ACOMPANHAMENTOS):*\n';
       sideItems.forEach(item => {
-        message += `- ${item.label}: ${item.value}\n`;
+        message += `- ${item.label.toUpperCase()}: ${item.value} 🥖\n`;
       });
       message += '\n';
     }
     
     if (drinkItems.length > 0) {
-      message += '*🍺 SUPRIMENTOS LÍQUIDOS*\n';
+      message += '🍺 *COMBUSTÍVEL LÍQUIDO (HIDRATAÇÃO GERAL):*\n';
       drinkItems.forEach(item => {
-        message += `- ${item.label}: ${item.value}\n`;
+        message += `- ${item.label.toUpperCase()}: ${item.value} 🍻\n`;
       });
       message += '\n';
     }
     
+    if (supplyItems.length > 0) {
+      message += '🪵 *FOGO & SAL (OS ELEMENTOS DO RITUAL):*\n';
+      supplyItems.forEach(item => {
+        message += `- ${item.label.toUpperCase()}: ${item.value} 🧂\n`;
+      });
+      message += '\n';
+    }
+    
+    message += '⚔️ *SELADO PELO BUCANERO E NETÃO! BRASA NELES!* ⚔️\n';
     message += '_Lista gerada pelo Mister Churras - A Bíblia da Brasa._';
     return encodeURIComponent(message);
   };
 
   const handleSendToWhatsApp = () => {
-    const message = formatWhatsAppMessage();
+    const message = formatWhatsAppMessage(false);
     // Open WhatsApp share — user picks the recipient
     window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
   };
+
+  /*
+  const handleSendToButcher = () => {
+    const rawPhone = prompt("🔥 ENVIAR ORDEM DIRETA AO AÇOUGUE 🔥\n\nDigite o WhatsApp do seu Açougue de confiança (com DDD, apenas números, ex: 11999999999):");
+    
+    if (rawPhone === null) return;
+    
+    const message = formatWhatsAppMessage(true);
+    const sanitizedPhone = rawPhone.replace(/\D/g, '');
+    
+    if (sanitizedPhone) {
+      window.open(`https://wa.me/${sanitizedPhone}?text=${message}`, '_blank');
+    } else {
+      window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
+    }
+  };
+  */
 
   const handleBulkSend = async () => {
     if (selectedGuests.length === 0) return;
     
     setBulkLoading(true);
-    const message = formatWhatsAppMessage();
+    const message = formatWhatsAppMessage(false);
     
     for (const guestId of selectedGuests) {
       const guest = availableGuests.find(g => g.id === guestId);
@@ -257,21 +295,34 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
             )}
           </Button>
           <Button variant="primary" onClick={handleSendToWhatsApp}>
-            <Flame className="mr-2" size={18} /> Lista do Açougue
+            <Flame className="mr-2" size={18} /> Compartilhar Lista
           </Button>
         </div>
 
-          <Button 
-            variant="secondary" 
-            fullWidth 
-            disabled={availableGuests.length === 0}
-            onClick={() => {
-              if (!user) { onRequestAuth(); return; }
-              setIsGuestSelectorOpen(true);
-            }}
-          >
+        {/* 
+        Opcional: Ativar ordem direta de açougue quando houver parceiros cadastrados
+        <Button 
+          variant="secondary" 
+          fullWidth 
+          onClick={handleSendToButcher}
+          className="bg-ouro-velho hover:bg-ouro-velho/80 text-prensa font-bold border-2 border-ouro-velho/30 mb-3"
+        >
+          <ShoppingCart className="mr-2" size={18} /> Enviar Ordem para o Açougue
+        </Button>
+        */}
+
+        <Button 
+          variant="secondary" 
+          fullWidth 
+          disabled={availableGuests.length === 0}
+          onClick={() => {
+            if (!user) { onRequestAuth(); return; }
+            setIsGuestSelectorOpen(true);
+          }}
+        >
           <Users className="mr-2" size={18} /> Convidar o Pessoal
         </Button>
+
         {availableGuests.length === 0 && (
           <p className="text-[10px] text-center text-sangue-boi/60 italic">Cadastre convidados no topo para liberar o convite.</p>
         )}

@@ -36,10 +36,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { guests, durationHours, meats } = req.body as {
+    const { guests, durationHours, meats, appetite } = req.body as {
       guests: Guests;
       durationHours: number;
       meats: MenuSelection;
+      appetite?: 'moderado' | 'mestre' | 'ogro';
     };
 
     // Validations
@@ -53,6 +54,10 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
     // 1. Base consumption for 4 hours
     let baseMeatTotal = (guests.men * 0.6) + (guests.women * 0.4) + (guests.kids * 0.25);
+    
+    // Appetite intensity multiplier
+    const appetiteFactor = appetite === 'moderado' ? 0.8 : (appetite === 'ogro' ? 1.25 : 1.0);
+    baseMeatTotal = baseMeatTotal * appetiteFactor;
     
     // Accelerator for time > 4h (10% extra per additional hour)
     if (durationHours > 4) {

@@ -38,6 +38,7 @@ function AppContent() {
   // State for Setup
   const [guests, setGuests] = useState<Guests>({ men: 0, women: 0, kids: 0, drinkers: 0 });
   const [durationHours, setDurationHours] = useState<number>(4);
+  const [appetite, setAppetite] = useState<'moderado' | 'mestre' | 'ogro'>('mestre');
   
   // State for Meats
   const [meats, setMeats] = useState<MenuSelection>({
@@ -54,7 +55,7 @@ function AppContent() {
 
   const handleGenerateList = async () => {
     try {
-      const calcResult = await calculateChurras(guests, durationHours, meats);
+      const calcResult = await calculateChurras(guests, durationHours, meats, appetite);
       setResult(calcResult);
       setCurrentStep('results');
     } catch (error) {
@@ -66,6 +67,7 @@ function AppContent() {
   const handleReset = () => {
     setGuests({ men: 0, women: 0, kids: 0, drinkers: 0 });
     setDurationHours(4);
+    setAppetite('mestre');
     setMeats({ bovino: false, suino: false, frango: false, linguica: false, paoDeAlho: false, queijoCoalho: false });
     setResult(null);
     setCurrentStep('setup');
@@ -88,7 +90,9 @@ function AppContent() {
         <div className="w-full md:w-auto flex justify-center md:justify-end">
           {user ? (
             <div className="flex items-center gap-4 font-sans">
-
+              <span className="text-madeira text-xs font-bold uppercase tracking-wider border-r border-madeira/30 pr-4">
+                🔥 Mestre: {user.user_metadata?.name || 'Assador'}
+              </span>
               <button onClick={signOut} className="flex items-center gap-2 text-madeira hover:text-sangue-boi transition-colors" title="Sair da Brasa">
                 <LogOut size={24} />
               </button>
@@ -116,6 +120,8 @@ function AppContent() {
                 setGuests={setGuests} 
                 durationHours={durationHours} 
                 setDurationHours={setDurationHours} 
+                appetite={appetite}
+                setAppetite={setAppetite}
                 onNext={() => setCurrentStep('meats')} 
                 config={config.steps.setup}
               />

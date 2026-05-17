@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Flame, ShieldCheck, Truck, TrendingUp, X, Award } from 'lucide-react';
@@ -20,7 +20,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
     setIsSubmitting(true);
     const sanitizedData = {
       name: formData.name.trim(),
-      shopName: formData.shopName.trim(),
+      shop_name: formData.shopName.trim(),
       specialty: formData.specialty.trim(),
       city: formData.city.trim(),
       whatsapp: formData.whatsapp.trim().replace(/\D/g, '') // Keep only numbers for WhatsApp
@@ -28,32 +28,31 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
 
     try {
       const { error } = await supabase
-        .from('butcher_prospects')
+        .from('butchers_parceiros')
         .insert([sanitizedData]);
       if (error) throw error;
       setSuccess(true);
       
-      // Notificar Bucanero via WhatsApp
-      const adminPhone = '5511999999999'; // N├║mero do Bucanero
+      // Notificar Bucanero via WhatsApp Deep Link
+      const adminPhone = '5511999999999'; // Número do Bucanero
       const message = encodeURIComponent(
-        `*­ƒô£ NOVO OF├ìCIO DE PARCERIA - MISTER CHURRAS*\n\n` +
-        `*Mestre/Propriet├írio:* ${formData.name}\n` +
+        `*🎟️ NOVO OFÍCIO DE PARCERIA - MISTER CHURRAS*\n\n` +
+        `*Mestre/Proprietário:* ${formData.name}\n` +
         `*Casa de Carnes:* ${formData.shopName}\n` +
-        `*Corte de Consagra├º├úo:* ${formData.specialty || 'N├úo informado'}\n` +
+        `*Corte de Consagração:* ${formData.specialty || 'Não informado'}\n` +
         `*Comarca:* ${formData.city}\n` +
         `*WhatsApp:* ${formData.whatsapp}\n\n` +
-        `_Um novo parceiro solicita consagra├º├úo na Guilda!_`
+        `_Um novo parceiro solicita consagração na Guilda!_`
       );
       
-      // Abrir WhatsApp do Admin ap├│s breve delay para o usu├írio ver o sucesso
       setTimeout(() => {
         window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
       }, 1500);
 
     } catch (err: any) {
-      console.error('Erro na submiss├úo:', err);
-      const errorMsg = err?.message || 'Erro ao submeter o of├¡cio.';
-      alert(`Falha no Pacto: ${errorMsg}. Verifique se a tabela butcher_prospects existe e se as chaves do Supabase est├úo corretas.`);
+      console.error('Erro na submissão:', err);
+      const errorMsg = err?.message || 'Erro ao submeter o ofício.';
+      alert(`Falha no Pacto: ${errorMsg}. Verifique se a tabela butchers_parceiros existe e se as chaves do Supabase estão corretas.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -81,7 +80,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
             </h2>
             
             <p className="text-xl italic font-sans opacity-90 border-l-4 border-sangue-boi pl-6 leading-relaxed">
-              "O ritual s├│ atinge a perfei├º├úo nas m├úos de quem conhece o of├¡cio. Queremos o seu talento como a assinatura oficial do nosso Batalh├úo."
+              "O ritual só atinge a perfeição nas mãos de quem conhece o ofício. Queremos o seu talento como a assinatura oficial do nosso Batalhão."
             </p>
             
             <div className="space-y-6 pt-8">
@@ -89,21 +88,21 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                 <div className="bg-sangue-boi/20 p-2 rounded-sm"><TrendingUp className="text-ouro-velho" size={24} /></div>
                 <div>
                   <h4 className="font-bold uppercase tracking-widest text-sm text-ouro-velho">Curadoria de Elite</h4>
-                  <p className="text-sm opacity-70">N├úo buscamos apenas carne, buscamos a sua curadoria e maestria no balc├úo.</p>
+                  <p className="text-sm opacity-70">Não buscamos apenas carne, buscamos a sua curadoria e maestria no balcão.</p>
                 </div>
               </div>
               <div className="flex items-start gap-5">
                 <div className="bg-sangue-boi/20 p-2 rounded-sm"><Truck className="text-ouro-velho" size={24} /></div>
                 <div>
                   <h4 className="font-bold uppercase tracking-widest text-sm text-ouro-velho">Pacto de Honra</h4>
-                  <p className="text-sm opacity-70">Sem custos de ades├úo. O valor est├í no que voc├¬ entrega para a comunidade da brasa.</p>
+                  <p className="text-sm opacity-70">Sem custos de adesão. O valor está no que você entrega para a comunidade da brasa.</p>
                 </div>
               </div>
               <div className="flex items-start gap-5">
                 <div className="bg-sangue-boi/20 p-2 rounded-sm"><ShieldCheck className="text-ouro-velho" size={24} /></div>
                 <div>
                   <h4 className="font-bold uppercase tracking-widest text-sm text-ouro-velho">Ordem Direta</h4>
-                  <p className="text-sm opacity-70">Receba ordens completas via WhatsApp. Voc├¬ prepara a excel├¬ncia, n├│s cuidamos da log├¡stica.</p>
+                  <p className="text-sm opacity-70">Receba ordens completas via WhatsApp. Você prepara a excelência, nós cuidamos da logística.</p>
                 </div>
               </div>
             </div>
@@ -126,12 +125,12 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
               {success ? (
                 <div className="text-center py-16 space-y-6 relative z-10">
                   <Flame className="text-sangue-boi mx-auto animate-pulse" size={80} />
-                  <h3 className="text-3xl font-serif font-bold text-prensa uppercase tracking-tighter">Of├¡cio Recebido!</h3>
+                  <h3 className="text-3xl font-serif font-bold text-prensa uppercase tracking-tighter">Ofício Recebido!</h3>
                   <p className="text-lg italic font-sans max-w-xs mx-auto">
-                    "O seu of├¡cio foi recebido pela Confraria. Nossa equipe avaliar├í a sua casa e entrar├í em contato em breve para firmar o pacto da brasa."
+                    "O seu ofício foi recebido pela Confraria. Nossa equipe avaliará a sua casa e entrará em contato em breve para firmar o pacto da brasa."
                   </p>
                   <div className="pt-8">
-                    <Button variant="primary" fullWidth onClick={onClose}>Retornar ao Batalh├úo</Button>
+                    <Button variant="primary" fullWidth onClick={onClose}>Retornar ao Batalhão</Button>
                   </div>
                 </div>
               ) : (
@@ -144,7 +143,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
 
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Nome do Mestre / Propriet├írio</label>
+                      <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Nome do Mestre / Proprietário</label>
                       <input 
                         required
                         type="text" 
@@ -168,7 +167,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                     </div>
 
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Corte de Consagra├º├úo (O que faz sua fama?)</label>
+                      <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Corte de Consagração (O que faz sua fama?)</label>
                       <input 
                         type="text" 
                         placeholder="Ex: Picanha de Wagyu, Costela 12h..."
@@ -180,7 +179,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                       <div>
-                        <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Comarca de Atua├º├úo</label>
+                        <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Comarca de Atuação</label>
                         <input 
                           required
                           type="text" 
@@ -191,7 +190,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Tel├®grafo de Contato</label>
+                        <label className="block text-[10px] uppercase font-bold text-madeira mb-2 tracking-[0.2em]">Telégrafo de Contato</label>
                         <input 
                           required
                           type="tel" 
@@ -212,7 +211,7 @@ export function ButcherPortal({ onClose }: { onClose: () => void }) {
                       disabled={isSubmitting}
                       className="py-6 text-xl shadow-xl hover:shadow-sangue-boi/20"
                     >
-                      {isSubmitting ? 'Firmando Acordo...' : 'Submeter Of├¡cio de Parceria'}
+                      {isSubmitting ? 'Firmando Acordo...' : 'Submeter Ofício de Parceria'}
                     </Button>
                   </div>
                   <p className="text-[10px] text-center opacity-40 uppercase tracking-widest mt-6 font-serif">

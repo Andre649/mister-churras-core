@@ -10,6 +10,8 @@ interface SetupStepProps {
   setGuests: React.Dispatch<React.SetStateAction<Guests>>;
   durationHours: number;
   setDurationHours: (val: number) => void;
+  appetite: 'moderado' | 'mestre' | 'ogro';
+  setAppetite: (val: 'moderado' | 'mestre' | 'ogro') => void;
   onNext: () => void;
   config: {
     title: string;
@@ -22,7 +24,7 @@ interface SetupStepProps {
   };
 }
 
-export function SetupStep({ guests, setGuests, durationHours, setDurationHours, onNext, config }: SetupStepProps) {
+export function SetupStep({ guests, setGuests, durationHours, setDurationHours, appetite, setAppetite, onNext, config }: SetupStepProps) {
   const updateGuest = (key: keyof Guests, value: number) => {
     setGuests(prev => ({ ...prev, [key]: value }));
   };
@@ -91,6 +93,33 @@ export function SetupStep({ guests, setGuests, durationHours, setDurationHours, 
           <p className="text-[10px] text-center text-madeira/50 mt-2 font-sans italic uppercase tracking-widest">
             {config.limits.defaultDuration}h é o tempo mínimo para selar o destino.
           </p>
+        </div>
+
+        <div className="pt-4 mt-4 border-t-2 border-madeira/20 border-dotted">
+          <label className="block text-xs font-serif font-bold text-prensa uppercase tracking-widest mb-3 text-center">
+            Perfil de Apetite (Fome)
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'moderado', label: 'Moderado', desc: '0.8x - Leve' },
+              { id: 'mestre', label: 'Mestre', desc: '1.0x - Padrão' },
+              { id: 'ogro', label: 'Ogro', desc: '1.25x - Ogros' }
+            ].map(item => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setAppetite(item.id as any)}
+                className={`p-2 border-2 text-center rounded-none transition-all active:scale-95 duration-100 flex flex-col items-center justify-center ${
+                  appetite === item.id 
+                    ? 'border-sangue-boi bg-sangue-boi text-pergaminho' 
+                    : 'border-madeira/30 bg-transparent text-madeira hover:border-madeira'
+                }`}
+              >
+                <span className="text-xs font-serif font-bold uppercase">{item.label}</span>
+                <span className="text-[8px] uppercase tracking-tighter mt-1 opacity-80">{item.desc}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

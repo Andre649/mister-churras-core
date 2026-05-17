@@ -124,10 +124,15 @@ const DEFAULT_CONFIG: AppConfig = {
 function localCalculateChurras(
   guests: Guests,
   durationHours: number,
-  meats: MenuSelection
+  meats: MenuSelection,
+  appetite?: 'moderado' | 'mestre' | 'ogro'
 ): CalculationResult {
   // 1. Base consumption for 4 hours
   let baseMeatTotal = (guests.men * 0.6) + (guests.women * 0.4) + (guests.kids * 0.25);
+  
+  // Appetite intensity multiplier
+  const appetiteFactor = appetite === 'moderado' ? 0.8 : (appetite === 'ogro' ? 1.25 : 1.0);
+  baseMeatTotal = baseMeatTotal * appetiteFactor;
   
   // Accelerator for time > 4h (10% extra per additional hour)
   if (durationHours > 4) {
@@ -234,7 +239,8 @@ export async function fetchAppConfig(): Promise<AppConfig> {
 export async function calculateChurras(
   guests: Guests,
   durationHours: number,
-  meats: MenuSelection
+  meats: MenuSelection,
+  appetite?: 'moderado' | 'mestre' | 'ogro'
 ): Promise<CalculationResult> {
   try {
     const response = await fetch('/api/v1/calcular-churrasco', {
@@ -242,7 +248,7 @@ export async function calculateChurras(
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ guests, durationHours, meats }),
+      body: JSON.stringify({ guests, durationHours, meats, appetite }),
     });
 
     if (!response.ok) {
@@ -253,6 +259,6 @@ export async function calculateChurras(
     return await response.json();
   } catch (error) {
     console.warn('Realizando cálculo local de backup offline do Mister Churras:', error);
-    return localCalculateChurras(guests, durationHours, meats);
+    return localCalculateChurras(guests, durationHours, meats, appetite);
   }
 }
