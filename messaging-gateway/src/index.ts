@@ -118,9 +118,10 @@ app.get('/health', (_req, res) => {
     res.json({ status: 'ok' });
 });
 
-/** Home — connection status dashboard */
-app.get('/', authenticateWeb, (req, res) => {
+/** Home — connection status dashboard (Public for Render Healthcheck, Admin navigation only with key) */
+app.get('/', (req, res) => {
     const key = req.query.key;
+    const hasValidKey = key === API_KEY;
     const html = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -144,8 +145,8 @@ app.get('/', authenticateWeb, (req, res) => {
   <div class="badge ${isConnected ? 'online' : 'offline'}">
     ${isConnected ? '✅ WhatsApp Conectado e Pronto' : '⚠️ WhatsApp Desconectado'}
   </div>
-  ${!isConnected ? `<p>👉 <a href="/qr?key=${key}">Clique aqui para escanear o QR Code</a></p>` : ''}
-  <p><a href="/status?key=${key}">/status JSON</a></p>
+  ${!isConnected && hasValidKey ? `<p>👉 <a href="/qr?key=${key}">Clique aqui para escanear o QR Code</a></p>` : ''}
+  ${hasValidKey ? `<p><a href="/status?key=${key}">/status JSON</a></p>` : ''}
 </body>
 </html>`;
     res.send(html);
