@@ -84,10 +84,43 @@ const authenticate = (req: express.Request, res: express.Response, next: express
     next();
 };
 
+// Middleware for web pages (GET) - protects /qr, /reset, /status, / from unauthorized users
+const authenticateWeb = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const key = req.query.key;
+    if (key !== API_KEY) {
+        return res.status(401).send(`<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>🔒 Acesso Restrito - Mister Churras</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Old+Standard+TT&display=swap');
+    body { font-family: 'Old Standard TT', serif; background: #1a0e08; color: #f4ecd8; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
+    h1 { font-family: 'Cinzel', serif; color: #8e2b0c; font-size: 2.5rem; letter-spacing: 0.05em; margin-bottom: 1rem; }
+    p { color: #c4a882; font-size: 1.2rem; max-width: 500px; line-height: 1.6; }
+    .footer { margin-top: 2rem; color: #7a6050; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>🔒 Acesso Negado</h1>
+  <p>Este portal de gerenciamento do Gateway WhatsApp do <strong>Mister Churras</strong> é restrito apenas a administradores autorizados.</p>
+  <div class="footer">Segurança por: Guardião da Brasa (OWASP / NIST Frameworks)</div>
+</body>
+</html>`);
+    }
+    next();
+};
+
 // ─── Routes ───────────────────────────────────────────────────────────────────
 
+/** Public health check endpoint for cloud platform checks */
+app.get('/health', (_req, res) => {
+    res.json({ status: 'ok' });
+});
+
 /** Home — connection status dashboard */
-app.get('/', (_req, res) => {
+app.get('/', authenticateWeb, (req, res) => {
+    const key = req.query.key;
     const html = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -111,15 +144,16 @@ app.get('/', (_req, res) => {
   <div class="badge ${isConnected ? 'online' : 'offline'}">
     ${isConnected ? '✅ WhatsApp Conectado e Pronto' : '⚠️ WhatsApp Desconectado'}
   </div>
-  ${!isConnected ? '<p>👉 <a href="/qr">Clique aqui para escanear o QR Code</a></p>' : ''}
-  <p><a href="/status">/status JSON</a></p>
+  ${!isConnected ? `<p>👉 <a href="/qr?key=${key}">Clique aqui para escanear o QR Code</a></p>` : ''}
+  <p><a href="/status?key=${key}">/status JSON</a></p>
 </body>
 </html>`;
     res.send(html);
 });
 
 /** QR Code page — auto-refreshes until connected */
-app.get('/qr', async (_req, res) => {
+app.get('/qr', authenticateWeb, async (req, res) => {
+    const key = req.query.key;
     if (isConnected) {
         return res.send(`<!DOCTYPE html>
 <html lang="pt-BR">
@@ -128,7 +162,7 @@ app.get('/qr', async (_req, res) => {
 </head>
 <body><h1>✅ WhatsApp já está conectado!</h1>
 <p>O gateway está online. Feche esta janela.</p>
-<p><a href="/" style="color:#d4a017">← Voltar ao dashboard</a></p>
+<p><a href="/?key=${key}" style="color:#d4a017">← Voltar ao dashboard</a></p>
 </body></html>`);
     }
 
@@ -172,7 +206,7 @@ app.get('/qr', async (_req, res) => {
   </ol>
   <small>QR Code expira em ~60s. Página atualiza automaticamente.</small>
   <br/><br/>
-  <p><a href="/reset" style="color: #e67e22; text-decoration: none; border: 1px dashed #e67e22; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold;">🔄 Problemas ao vincular? Clique aqui para Resetar a Sessão</a></p>
+  <p><a href="/reset?key=${key}" style="color: #e67e22; text-decoration: none; border: 1px dashed #e67e22; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold;">🔄 Problemas ao vincular? Clique aqui para Resetar a Sessão</a></p>
 </body>
 </html>`);
     } catch (_err) {
@@ -181,7 +215,8 @@ app.get('/qr', async (_req, res) => {
 });
 
 /** Reset session and recreate WhatsApp connection */
-app.get('/reset', async (_req, res) => {
+app.get('/reset', authenticateWeb, async (req, res) => {
+    const key = req.query.key;
     try {
         console.log('🔄 Resetting WhatsApp session...');
         
@@ -214,12 +249,12 @@ app.get('/reset', async (_req, res) => {
         // 5. Redirect back to /qr to scan new code
         res.send(`<!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><meta http-equiv="refresh" content="3;url=/qr"><title>Reiniciando...</title>
+<head><meta charset="UTF-8"><meta http-equiv="refresh" content="3;url=/qr?key=${key}"><title>Reiniciando...</title>
 <style>body{font-family:serif;background:#1a0e08;color:#f4ecd8;text-align:center;padding:3rem}</style>
 </head>
 <body><h1>🔄 Sessão Reiniciada com Sucesso!</h1>
 <p>Apagamos os dados antigos. Redirecionando para o novo QR Code em 3 segundos...</p>
-<p><a href="/qr" style="color:#d4a017">Clique aqui se não for redirecionado automaticamente</a></p>
+<p><a href="/qr?key=${key}" style="color:#d4a017">Clique aqui se não for redirecionado automaticamente</a></p>
 </body></html>`);
     } catch (err: any) {
         console.error('Failed to reset session:', err);
@@ -252,12 +287,12 @@ app.post('/send', authenticate, async (req, res) => {
 });
 
 /** Status endpoint — used by Railway health check */
-app.get('/status', (_req, res) => {
+app.get('/status', authenticateWeb, (req, res) => {
     res.json({
         online: isConnected,
         qr_available: !!lastQR,
         user: sock?.user?.id || null,
-        qr_url: !isConnected ? '/qr' : null
+        qr_url: !isConnected ? `/qr?key=${req.query.key}` : null
     });
 });
 
