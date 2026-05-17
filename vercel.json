@@ -1,14 +1,1 @@
-{
-  "outputDirectory": "web/dist",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/((?!api/|api$).*)",
-      "destination": "/index.html"
-    }
-  ]
-}
+{"outputDirectory": "web/dist", "rewrites": [{"source": "/((?!api/|api$).*)", "destination": "/index.html"}]}
