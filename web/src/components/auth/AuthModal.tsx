@@ -1,6 +1,7 @@
-// AuthModal.tsx - Premium Sovereign WhatsApp & Password Authentication
+// AuthModal.tsx - Premium Sovereign WhatsApp & Password Authentication (SMTP-Free)
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { X, Phone, Loader2, BookOpen, KeyRound, User } from 'lucide-react';
@@ -11,6 +12,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
+  const { loginCustom } = useAuth();
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +25,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   const getSanitizedPhone = () => {
     return phone.replace(/\D/g, ''); // Mantém apenas números
+  };
+
+  const hashPassword = async (pwd: string): Promise<string> => {
+    const salted = `${pwd}misterchurrassalt2026`;
+    const msgBuffer = new TextEncoder().encode(salted);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   };
 
   const handleCheckPhone = async (e: React.FormEvent) => {
@@ -68,26 +78,39 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setMessage(null);
 
     const sanitizedPhone = getSanitizedPhone();
-    const email = `${sanitizedPhone}@gmail.com`;
 
     try {
-      const { error: loginError } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      const pwdHash = await hashPassword(password);
 
-      if (loginError) {
-        if (loginError.message.includes('Invalid login credentials')) {
-          throw new Error('Senha incorreta para este número.');
-        }
-        throw loginError;
+      // 1. Buscar usuário na tabela pública
+      const { data: userRow, error } = await supabase
+        .from('mister_churras_users')
+        .select('*')
+        .eq('whatsapp', sanitizedPhone)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!userRow) {
+        throw new Error('Mestre Assador não encontrado.');
       }
 
-      // Atualiza last_login_at para registrar o acesso ativo
+      // 2. Verificar senha
+      if (userRow.password_hash !== pwdHash) {
+        throw new Error('Senha incorreta para este número.');
+      }
+
+      // 3. Atualizar last_login_at
       await supabase
         .from('mister_churras_users')
         .update({ last_login_at: new Date().toISOString() })
-        .eq('whatsapp', sanitizedPhone);
+        .eq('id', userRow.id);
+
+      // 4. Iniciar sessão customizada
+      loginCustom({
+        id: userRow.id,
+        name: userRow.name,
+        whatsapp: userRow.whatsapp
+      });
 
       onClose(); // Sucesso
     } catch (error: any) {
@@ -103,7 +126,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setMessage(null);
 
     const sanitizedPhone = getSanitizedPhone();
-    const email = `${sanitizedPhone}@gmail.com`;
 
     if (password.length < 6) {
       setMessage({ type: 'error', text: 'A senha deve conter no mínimo 6 caracteres.' });
@@ -124,18 +146,32 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     }
 
     try {
-      const { error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            name: name.trim(),
-            whatsapp: sanitizedPhone
-          }
-        }
-      });
+      const pwdHash = await hashPassword(password);
 
-      if (signUpError) throw signUpError;
+      // 1. Inserir novo perfil customizado na tabela mister_churras_users
+      const { data: insertedUser, error } = await supabase
+        .from('mister_churras_users')
+        .insert({
+          whatsapp: sanitizedPhone,
+          name: name.trim(),
+          password_hash: pwdHash
+        })
+        .select('*')
+        .single();
+
+      if (error) {
+        if (error.message.includes('unique constraint') || error.code === '23505') {
+          throw new Error('Este número de WhatsApp já possui cadastro.');
+        }
+        throw error;
+      }
+
+      // 2. Iniciar sessão customizada
+      loginCustom({
+        id: insertedUser.id,
+        name: insertedUser.name,
+        whatsapp: insertedUser.whatsapp
+      });
 
       onClose(); // Sucesso
     } catch (error: any) {
