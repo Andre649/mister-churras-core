@@ -1,6 +1,6 @@
-# 🔥 Mister Churras — Arquitetura Soberana & Headless
+# 🔥 Mister Churras: O Braseiro — Arquitetura Soberana & Headless
 
-Bem-vindo ao núcleo de engenharia do **Mister Churras**. Este repositório adota uma arquitetura de microsserviços soberana, modular e de baixo custo, estruturada com segurança de nível corporativo e focada em execução contínua (24/7) na nuvem.
+Bem-vindo ao núcleo de engenharia do **Mister Churras: O Braseiro**. Este repositório abandona a linguagem gourmetizada e abraça o peso e o respeito dos grandes festivais de carne do Brasil (como o Festival Taurus). Adotamos uma arquitetura de microsserviços soberana, modular e de baixo custo, estruturada com segurança de nível corporativo e focada em execução contínua (24/7) na nuvem. A interface é crua, focada na experiência do balcão nacional.
 
 ---
 

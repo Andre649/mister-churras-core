@@ -19,6 +19,9 @@ alter table public.mister_churras_users disable row level security;
 alter table if exists public.events disable row level security;
 
 -- Adicionar a restrição referenciando nossa nova tabela de usuários customizada
+-- Primeiro, deletar eventos órfãos cujos usuários não existem na nova tabela
+delete from public.events where user_id not in (select id from public.mister_churras_users);
+
 alter table public.events 
   add constraint events_user_id_fkey 
   foreign key (user_id) 
