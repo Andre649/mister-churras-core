@@ -68,7 +68,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setMessage(null);
 
     const sanitizedPhone = getSanitizedPhone();
-    const email = `${sanitizedPhone}@misterchurras.com.br`;
+    const email = `${sanitizedPhone}@gmail.com`;
 
     try {
       const { error: loginError } = await supabase.auth.signInWithPassword({
@@ -103,7 +103,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setMessage(null);
 
     const sanitizedPhone = getSanitizedPhone();
-    const email = `${sanitizedPhone}@misterchurras.com.br`;
+    const email = `${sanitizedPhone}@gmail.com`;
 
     if (password.length < 6) {
       setMessage({ type: 'error', text: 'A senha deve conter no mínimo 6 caracteres.' });

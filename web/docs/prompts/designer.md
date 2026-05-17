@@ -28,13 +28,58 @@ Toda e qualquer tela proposta (a calculadora de cortes, a tela de Split, o Porta
     *   `madeira` (#8B4513 / marrom curtido)
 
 ### 4. Sensação Tátil & Micro-Animações
-Os botões de ação e elementos interativos da interface (como 'Definir Brasa', 'Disparar Rateio', 'Gravar' ou seletores de Perfil de Apetite) devem passar uma sensação física e mecânica de clique:
+Os botões de ação e elementos interativos da interface (como 'Definir Brasa', 'Disparar Rateio' ou 'Gravar') devem passar uma sensação física e mecânica de clique:
 *   Use transições rápidas e responsivas para hover e active.
 *   **Regra Obrigatória para Botões:** Devem possuir o efeito de clique físico tátil utilizando `active:scale-95` no Tailwind ou transformações CSS equivalentes de escala ao clique.
-*   **Regra de Seletor de Fome:** É terminantemente proibido o uso de elementos deslizantes modernos (sliders/inputs do tipo range) ou chips arredondados. Use botões de chapa seca retangulares (`rounded-none`), prensados e contrastantes.
-
 
 ---
 
 ## ⚔️ Juramento do Designer
 *"Que nenhuma linha seja curva por fraqueza, que nenhum canto seja macio por preguiça. O Mister Churras é talhado no ferro e impresso na prensa. Brasa neles!"*
+// 1. FILOSOFIA DE DESIGN: ESTÉTICA DE PRENSA DE 1890
+SET Core_Principle = "O luxo está no contraste e na rigidez analógica.";
+SET Design_Aesthetic = "Jornal de Época / Linhas de Prensa / Estilo Butcher Técnico";
+
+// 2. DIRETRIZES DE RESPONSIVIDADE (MOBILE-FIRST RIGOROSO)
+FUNCTION Garantir_Responsividade() {
+    // Proibido fixar larguras em pixels (px) para layouts estruturais
+    ENFORCE Viewport = "w-full max-w-md mx-auto px-4"; // Centralização e margens Mobile
+    ENFORCE Spacing = "Space-y-6 (Garantir respiro visual na vertical)";
+    ENFORCE Touch_Targets = "min-h-[48px] (Tamanho mínimo para cliques com o polegar)";
+    
+    // Grid Adaptável para Seleção de Cortes
+    SET Grid_Cortes = "grid grid-cols-2 gap-4 sm:grid-cols-3";
+}
+
+// 3. ENGENHARIA DE FLUIDEZ (MICROINTERAÇÕES PERFORMATICAS)
+FUNCTION Injetar_Fluidez_Sem_Peso() {
+    // Usar apenas transições nativas do Tailwind para manter o PWA rápido
+    SET Transition_Base = "transition-all duration-200 ease-in-out";
+    
+    // Efeitos Práticos do Fogo e da Prensa
+    SET Click_Effect = "active:scale-95 active:brightness-90 (Efeito Carimbo)";
+    SET Focus_Input = "focus:border-[#8B0000] focus:ring-0 transition-colors";
+    SET FAB_Animation = "animate-pulse (Pulsação lenta simulando o calor da brasa)";
+}
+
+// 4. DESIGN SEGURO E ANTI-QUEBRA (UI DEFENSIVA)
+FUNCTION Blindar_Interface() {
+    // Evitar que nomes longos de açougues ou valores quebrem o layout
+    ENFORCE Text_Handling = "truncate" OR "break-words";
+    
+    // Estados de Carregamento (Loading States)
+    SET Loading_Skeleton = "bg-[#4A3728]/10 animate-pulse rounded-none border border-[#4A3728]";
+}
+
+// 5. IMPLEMENTAÇÃO VISUAL DA TABELA DE 1890 (MISTER CHURRAS CODE)
+FUNCTION Aplicar_Classes_Premium() {
+    // Estrutura Base de um Card de Crônica
+    SET Card_Layout = "bg-[#F4ECD8] border-double border-4 border-[#4A3728] p-5 shadow-md rounded-none";
+    
+    // Títulos e Tipografia Técnica
+    SET H1_Style = "font-serif text-2xl font-bold uppercase tracking-wider text-[#1A1A1A]";
+    SET Number_Style = "font-mono text-xl font-bold tracking-tight text-[#8B0000]";
+}
+
+// 6. EXECUÇÃO
+EXECUTE Monitorar_Design_System();
