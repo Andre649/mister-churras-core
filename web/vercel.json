@@ -1,15 +1,1 @@
-{
-  "buildCommand": "npm install && npm run build",
-  "outputDirectory": "dist",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/((?!api/|api$).*)",
-      "destination": "/index.html"
-    }
-  ]
-}
+{"buildCommand": "npm install && npm run build", "outputDirectory": "dist", "rewrites": [{"source": "/((?!api/|api$).*)", "destination": "/index.html"}]}
