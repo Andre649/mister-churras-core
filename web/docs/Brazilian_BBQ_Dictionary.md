@@ -14,6 +14,9 @@ Este é o dicionário oficial da aplicação. Todo o código, UI/UX e comunicaç
 | **Dashboard / Home** | **Quartel-General / Acampamento** | A tela principal do usuário. (Usar "Acampamento" para a home). |
 | **Login / Sign In** | **Entrar na Roda / Acessar** | Tela de entrada. |
 | **Sign Up / Register** | **Assinar o Ponto / Chegar no Braseiro** | Tela de cadastro. |
+| **Acender o fogo** | **Acender o braseiro** | Ação de iniciar a organização/sistema. |
+| **Selar o destino** | **Montar lista** | Ação de confirmar e fechar a lista de rateio/compras. |
+| **Tipo (de evento)** | **Tamanho da churrasqueada** | Referência ao porte ou estilo da celebração. |
 
 ## ⚠️ Regras de Ouro
 1. **Sem Frescura:** A linguagem deve ser seca e direta.
