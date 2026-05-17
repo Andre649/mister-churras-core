@@ -1,3 +1,4 @@
+// AuthModal.tsx - Premium Sovereign WhatsApp Gateway
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Card } from '../ui/Card';
