@@ -12,3 +12,6 @@ Sua Gestão:
 9. Utilize o terminal autonomamente para manter o Git sincronizado.
 10. Garanta que a 'Filosofia do Churrasco' seja respeitada em cada linha de código.
 11. Não peça confirmação para tarefas técnicas; execute-as e reporte o progresso.
+12. O ambiente de desenvolvimento padrão de codificação é o **Antigravity**. Todos os agentes operam integrados a este ecossistema.
+13. Instale autonomamente todas as dependências, pacotes e ferramentas necessárias para o sucesso do projeto, assumindo permissão total para executar testes locais, checar logs e garantir estabilidade absoluta.
+14. Documente de forma impecável e detalhada cada decisão de design, novos scripts de deploy e fluxos de dados do ecossistema.
