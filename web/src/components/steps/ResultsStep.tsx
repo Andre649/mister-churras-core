@@ -160,11 +160,13 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
     { label: 'Sal de Parrilla', value: `${result.supplies.salt} kg` },
   ];
 
+  const hostName = user?.user_metadata?.name || 'O Mestre da Brasa';
+
   const formatWhatsAppMessage = (isOrderToButcher = false) => {
     if (!result) return '';
     
     let message = '🔥 *CHURRASCO CONSAGRADO - MISTER CHURRAS* 🔥\n';
-    message += '⚔️ _Bucanero e Netão convocam os guerreiros para a brasa!_\n\n';
+    message += `⚔️ _${hostName} convoca os guerreiros para a brasa!_\n\n`;
     
     if (isOrderToButcher) {
       message += '*🔪 NOVO PEDIDO DE EXCELÊNCIA - DIRETO AO AÇOUGUE* 🔪\n';
@@ -210,7 +212,7 @@ export function ResultsStep({ result, durationHours, guests, onReset, onBack, on
       message += '\n';
     }
     
-    message += '⚔️ *SELADO PELO BUCANERO E NETÃO! BRASA NELES!* ⚔️\n';
+    message += `⚔️ *SELADO POR ${hostName.toUpperCase()}! BRASA NELES!* ⚔️\n`;
     message += '_Lista gerada pelo Mister Churras - A Bíblia da Brasa._';
     return encodeURIComponent(message);
   };
