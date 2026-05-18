@@ -21,5 +21,53 @@ Sua Gestão:
 18. **Atualização Contínua de Agentes & Purga de Legado:** Sempre que uma modificação arquitetural, lógica ou de UI/UX for consolidada, você deve atualizar imediatamente o arquivo de treinamento de cada agente. Além de adicionar a nova regra, você deve **remover sumariamente qualquer referência ao código ou arquitetura antiga** (como OTP, SMS, integrações com Railway/Render, Magic Links antigos, Supabase GoTrue Auth, E-mails virtuais, SMTP) nesses arquivos. Isso impede que os agentes reintroduzam conceitos ultrapassados ou revertam as decisões já consagradas.
 19. **MANDATÓRIO: Arquitetura de Autenticação Soberana (SMTP-Free):** O projeto **NÃO DEVE NUNCA** utilizar a autenticação padrão do Supabase (`auth.users`, `supabase.auth`, provedores de SMTP). Tudo é salvo na nossa tabela customizada `mister_churras_users`, onde a segurança é ditada pela criptografia Web Crypto API SHA-256 no frontend e RLS desativado. Você deve monitorar ferozmente qualquer subagente que tente restaurar e-mails virtuais, enviar código para `auth.users` ou reinstituir limitações do provedor de e-mail.
 
+// 1. PIVOT DE MARCA: FESTIVAL DE CHURRASCO BRASILEIRO
+SET Brand_Concept = "Mister Churras - O Almanaque do Assador (Estilo Taurus Festival)";
+SET Cultural_Root = "Churrasco Raiz Brasileiro (Fogo de Chão, Grelha, Cutelaria e Modão)";
+SET Marketing_Fluff = "DISABLED"; // Mantido sob controle do Bucanero
 
-
+// 2. DICIONÁRIO DA BRASA BRASILEIRA (O VERBÁRIO DO BALCÃO)
+// Substituindo termos estrangeiros e genéricos pelo jargão dos grandes festivais nacionais
+MAP Brazilian_BBQ_Dictionary = {
+    "Login" -> "Registrar no Livro da Brasa",
+    "Quantas Pessoas" -> "Tamanho do Batalhão (Assadores & Convidados)",
+    "Cortes de Carne" -> "Estações de Corte / Linha de Carnes",
+    "Calcular" -> "Preparar o Braseiro",
+    "Lista de Compras" -> "Ordem do Açougue / Romaneio",
+    "Configurações" -> "Amolar a Faca",
+    "Finalizar" -> "Servir o Assado",
+    "Localizar Parceiro" -> "Butcher mais Próximo (Estação Oficial)",
+    "Split" -> "Rateio da Grelha"
+};
+
+// 3. DIRETRIZES DE REESTRUTURAÇÃO PARA OS AGENTES
+@Maestro {
+    // Comando ao Designer: Visual de panfleto e jornal de festival antigo brasileiro
+    DELEGATE(DESIGNER) {
+        ACTION = "Adaptar o Guia de Estilo Final para a atmosfera dos grandes festivais de carne do Brasil";
+        SET Elementos_Visuais = [
+            "Xilogravuras de gado Zebu/Nelore e carimbos de ferro quente",
+            "Textura de papel de embrulho de açougue antigo",
+            "Tipografia de manchete de cordel ou prensa de comarca antiga (Cinzel/Old Standard TT)"
+        ];
+        ENFORCE = "Responsividade estrita 'w-full max-w-md' e cantos retos 'rounded-none'";
+    }
+
+    // Comando ao Coder: Atualização de Labels e Strings com os novos termos
+    DELEGATE(CODER) {
+        ACTION = "Refatorar todos os componentes React para usar o Brazilian_BBQ_Dictionary";
+        UPDATE_LABELS = "Substituir termos antigos pelos comandos de Estação de Corte e Braseiro";
+        ENFORCE = "Manter o Hook de Split por peso no front-end e o Deep Link sanitizado para WhatsApp";
+    }
+
+    // Comando ao Arquiteto: Garantir o motor geográfico alinhado
+    DELEGATE(ARQUITETO) {
+        ACTION = "Validar a tabela do Supabase e a chamada RPC do PostGIS";
+        SET Nome_Exibicao = "Butcher Parceiro - Estação Homologada";
+    }
+}
+
+// 4. AUTO-DOCUMENTAÇÃO
+ON_MERGE_SUCCESS:
+    EXECUTE Atualizar_README_Projeto("Branding atualizado: Edição Festivais do Brasil");
+
