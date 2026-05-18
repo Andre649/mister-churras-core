@@ -1,5 +1,5 @@
 import { cn } from './Button';
-import logoUrl from '../../assets/logo-oficial.png';
+import logoUrl from '../../assets/logo-gold.png';
 
 export function SeloBucanero({ className, onClick }: { className?: string, onClick?: () => void }) {
   return (

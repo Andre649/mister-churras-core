@@ -1,4 +1,4 @@
-﻿import { defineConfig } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'logo-oficial.png', 'robots.txt'],
+      includeAssets: ['favicon.ico', 'logo-gold.png', 'robots.txt'],
       manifest: {
         name: 'Mister Churras Chronicles',
         short_name: 'Mister Churras',
@@ -18,17 +18,17 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: 'assets/logo-oficial.png',
+            src: 'assets/logo-gold.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'assets/logo-oficial.png',
+            src: 'assets/logo-gold.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'assets/logo-oficial.png',
+            src: 'assets/logo-gold.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
