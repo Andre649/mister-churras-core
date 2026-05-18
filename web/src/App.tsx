@@ -17,7 +17,7 @@ function AppContent() {
   const [currentStep, setCurrentStep] = useState<Step>('setup');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isButcherPortalOpen, setIsButcherPortalOpen] = useState(window.location.search.includes('portal=butcher'));
-  const [isAdminPortalOpen, setIsAdminPortalOpen] = useState(window.location.search.includes('portal=qg-comando'));
+  const [isAdminPortalOpen] = useState(window.location.search.includes('portal=qg-comando'));
   const { user, signOut } = useAuth();
   
   // State for Dynamic Config
